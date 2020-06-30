@@ -1,0 +1,32 @@
+server:
+  servlet:
+    context-path: /zdww
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://123.57.10.22:3306/takeaway?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: litchi
+    password: (hyy520LITCHI)
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .html
+  resources: classpath:/static/
+#mybatis配置
+mybatis:
+  type-aliases-package: com.zhongdianwanwei.business.model
+  mapper-locations: classpath:mapper/*Mapper.xml
+mybatis-plus:
+  mapper-location: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.zhongdianwanwei.business.model
+  check-config-location: false
+  executor-type: simple
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    column-underline: true
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    banner: false
