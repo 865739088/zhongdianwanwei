@@ -1,0 +1,47 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongdianwanwei.dao.MenuOfTheDayMapper">
+
+    <!-- 添加今日菜单到表中 -->
+    <insert id="insertDailyMenu" parameterType="com.zhongdianwanwei.model.MenuOfTheDay">
+        insert into menuOfTheDay(
+            dishes_ids,
+            create_date,
+            adapt_date
+        )
+        values(
+            #{dishesIds},
+            #{createTime},
+            #{adaptTime}
+        )
+    </insert>
+
+    <!-- 根据Id删除表中对应的每日菜单数据 -->
+    <delete id="deleteMenu" parameterType="Integer">
+        delete from table menuOfTheDay where id #{menuId}
+    </delete>
+
+    <!-- 根据Id查找对应的每日菜单数据  -->
+    <select id="getMenu" parameterType="Integer" resultType="com.zhongdianwanwei.model.MenuOfTheDay">
+        select
+            m.id,
+            m.dishes_ids,
+            m.create_date,
+            m.adapt_date
+        from menuOfTheDay m where m.id = #{id}
+    </select>
+
+    <!-- 修改每日菜单数据  -->
+    <update id="updateMenu" parameterType="com.zhongdianwanwei.model.MenuOfTheDay">
+        update menuOfTheDay
+        set
+            dishes.ids = #{dishes_ids},
+            create_date = #{createTime},
+            adapt_date = #{adaptTime}
+        where
+            id = #{id}
+    </update>
+
+</mapper>
