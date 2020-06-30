@@ -1,6 +1,6 @@
-package com.zhongdianwanwei.business.impl;
+package com.zhongdianwanwei.service.impl;
 
-import com.zhongdianwanwei.business.IMenuOfTheDayBusiness;
+import com.zhongdianwanwei.service.IMenuOfTheDayBusiness;
 import com.zhongdianwanwei.dao.DishesMapper;
 import com.zhongdianwanwei.dao.MenuOfTheDayMapper;
 import com.zhongdianwanwei.model.Dish;

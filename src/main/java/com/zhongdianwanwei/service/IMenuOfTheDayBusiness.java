@@ -1,4 +1,4 @@
-package com.zhongdianwanwei.business;
+package com.zhongdianwanwei.service;
 
 import com.zhongdianwanwei.model.MenuOfTheDay;
 
