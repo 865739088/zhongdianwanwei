@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /zdww
-  port: 8088
+  port: 8080
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
