@@ -11,9 +11,8 @@ spring:
     password: (hyy520LITCHI)
   mvc:
     view:
-      prefix: /templates/
+      prefix: templates/
       suffix: .html
-  resources: classpath:/static/
 #mybatis配置
 mybatis:
   type-aliases-package: com.zhongdianwanwei.service.model
