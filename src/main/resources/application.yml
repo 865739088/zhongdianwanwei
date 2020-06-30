@@ -15,11 +15,11 @@ spring:
   resources: classpath:/static/
 #mybatis配置
 mybatis:
-  type-aliases-package: com.zhongdianwanwei.business.model
+  type-aliases-package: com.zhongdianwanwei.service.model
   mapper-locations: classpath:mapper/*Mapper.xml
 mybatis-plus:
   mapper-location: classpath:mapper/*Mapper.xml
-  type-aliases-package: com.zhongdianwanwei.business.model
+  type-aliases-package: com.zhongdianwanwei.service.model
   check-config-location: false
   executor-type: simple
   configuration:

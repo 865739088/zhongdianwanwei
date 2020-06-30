@@ -1,6 +1,6 @@
-package com.zhongdianwanwei.business.impl;
+package com.zhongdianwanwei.service.impl;
 
-import com.zhongdianwanwei.business.IUserService;
+import com.zhongdianwanwei.service.IUserService;
 import com.zhongdianwanwei.dao.UserMapper;
 import com.zhongdianwanwei.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
