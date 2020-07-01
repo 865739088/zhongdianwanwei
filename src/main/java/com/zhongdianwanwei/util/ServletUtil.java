@@ -1,0 +1,21 @@
+package com.zhongdianwanwei.util;
+
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ServletUtil {
+
+
+    //获取HttpServletResponse
+    public static HttpServletResponse getResponse(){
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+    }
+
+    //获取HttpServletRequest
+    public static HttpServletRequest getRequest(){
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    }
+}
