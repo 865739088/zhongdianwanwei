@@ -74,6 +74,5 @@ public class User {
                 ", UserType=" + UserType +
                 ", GroupId=" + GroupId +
                 '}';
-        //sdfghjkddddaxSADFG
     }
 }

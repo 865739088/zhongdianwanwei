@@ -19,4 +19,9 @@ public class UserServiceImpl implements IUserService {
     public List<User> getUsers() {
         return userMapper.getUsers();
     }
+
+    @Override
+    public User getUserByUserName(String userName) {
+        return userMapper.getUserByUserName(userName);
+    }
 }
