@@ -19,15 +19,26 @@ public class AdminCountCtroller {
 
     @Resource(name = "admincountservice")
     private IAdminCountService adminCountService;
-    @PostMapping("/admincount")
-    public String getAdminCount(@RequestParam Date queryTime){
+    @PostMapping("/getTodayAdminCount")
+    public String getTodayAdminCount(@RequestParam int page,@RequestParam int counts){
         try {
-            List<AdminCount> result = adminCountService.getAdminCount(queryTime);
+            List<AdminCount> result = adminCountService.getTodayAdminCount(page, counts);
             return result.toString();
         }catch (Exception e){
             e.printStackTrace();
             return "系统内部错误";
         }
     }
+    @PostMapping("/getAdminCount")
+    public String getAdminCount(@RequestParam Date date,@RequestParam int page,@RequestParam int counts){
+        try {
+            List<AdminCount> result = adminCountService.getAdminCount(date,page, counts);
+            return result.toString();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "系统内部错误";
+        }
+    }
+
 
 }
