@@ -1,14 +1,11 @@
 package com.zhongdianwanwei.controller;
 
-import com.zhongdianwanwei.business.IMenuOfTheDayBusiness;
+import com.zhongdianwanwei.model.MenuOfTheDay;
+import com.zhongdianwanwei.service.IMenuOfTheDayService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.regex.Matcher;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -19,10 +16,91 @@ import java.util.regex.Pattern;
  * @date : 2020-06-30 14:31
  **/
 @RestController
+@RequestMapping(path = "/MenuOfTheDay")
 public class MenuOfTheDayController {
 
     @Autowired
-    private IMenuOfTheDayBusiness menuOfTheDayBusiness;
+    private IMenuOfTheDayService menuOfTheDayService;
+
+    /**
+     * 创建一个菜单
+     * @param adaptDateTimeStr 希望菜单生效的时间
+     * @param dishIds 希望菜单包含的菜品ID列表
+     * @return
+     */
+    @PostMapping
+    public Boolean createDailyMenu(@RequestParam("adaptTime") String adaptDateTimeStr,
+                                   @RequestParam("ids")Integer[] dishIds){
+
+        if (!checkDateTime(adaptDateTimeStr)){
+            return false;
+        }
+        if (dishIds == null || dishIds.length < 0){
+            return false;
+        }
+        adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
+        return menuOfTheDayService.saveDailyMenu(adaptDateTimeStr, dishIds);
+    }
+
+    /**
+     * 根据Id或者生效日期查找菜单
+     * @param id 菜单id
+     * @return
+     */
+    @GetMapping(value = "/{id}")
+    public MenuOfTheDay getMenu(@PathVariable(name = "id")Integer id){
+        return menuOfTheDayService.getMenuById(id);
+    }
+
+    /**
+     * 根据生效日期查找菜单
+     * @param adaptDateTimeStr 菜单生效日期
+     * @return
+     */
+    @GetMapping
+    public MenuOfTheDay getMenu(@RequestParam("adaptTime") String adaptDateTimeStr){
+        return menuOfTheDayService.getMenuByAdaptTime(adaptDateTimeStr);
+    }
+
+    /**
+     * 返回分页查询的结果
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping(path = "/{pageSize}/{pageIndex}")
+    public List<MenuOfTheDay> listMenu(@PathVariable(name = "pageIndex") Integer pageIndex,
+                                       @PathVariable(name = "pageSize") Integer pageSize){
+        if ((pageIndex < 1 || pageSize < 0)) {
+            return null;
+        }
+        return menuOfTheDayService.listMenus(pageIndex, pageSize);
+    }
+
+    /**
+     * 修改一个菜单
+     * @param id
+     * @param adaptDateTimeStr 希望菜单生效的时间
+     * @param dishIds 希望菜单包含的菜品id列表
+     * @return
+     */
+    @PatchMapping(value = "/{id}")
+    public Boolean updateDailyMenu(@PathVariable(name = "id") Integer id,
+                                   @RequestParam("adaptTime") String adaptDateTimeStr,
+                                   @RequestParam("ids")Integer[] dishIds){
+
+        if (!checkDateTime(adaptDateTimeStr)){
+            return false;
+        }
+        if (dishIds == null || dishIds.length < 0){
+            return false;
+        }
+        if (id == null) {
+            return false;
+        }
+        adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
+        return menuOfTheDayService.updateDailyMenu(id, adaptDateTimeStr, dishIds);
+    }
 
     private Boolean checkDateTime(String adaptDateTimeStr){
         if (adaptDateTimeStr == null
@@ -60,20 +138,6 @@ public class MenuOfTheDayController {
             return false;
         }
         return true;
-    }
-
-    @PostMapping("/createMenuOfTheDay")
-    public Boolean createDailyMenu(String adaptDateTimeStr,
-                                   @RequestParam("ids")Integer[] dishIds){
-
-        if (!checkDateTime(adaptDateTimeStr)){
-            return false;
-        }
-        if (dishIds == null || dishIds.length < 0){
-            return false;
-        }
-        adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
-        return menuOfTheDayBusiness.saveDailyMenu(adaptDateTimeStr, dishIds);
     }
 
 }
