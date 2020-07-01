@@ -7,4 +7,7 @@
     <select id="getUsers" resultType="com.zhongdianwanwei.model.User">
         select * from `user`;
     </select>
+    <select id="getUserByUserName" resultType="com.zhongdianwanwei.model.User" >
+        select * from `user` where username = #{userName}
+    </select>
 </mapper>

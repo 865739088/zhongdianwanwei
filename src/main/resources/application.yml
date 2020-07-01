@@ -11,7 +11,7 @@ spring:
     password: (hyy520LITCHI)
   mvc:
     view:
-      prefix: templates/
+      prefix: /templates/
       suffix: .html
  #thymeleaf配置
   thymeleaf:
