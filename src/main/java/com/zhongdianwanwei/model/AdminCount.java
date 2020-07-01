@@ -1,6 +1,7 @@
 package com.zhongdianwanwei.model;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 //用于管理员做统计model
 /*
@@ -10,61 +11,61 @@ public class AdminCount {
     //表内自增id
     private int id;
     //用户编号
-    private int userId;
+    private int user_id;
     //是否加班
-    private int ifOverTimeType;
+    private int if_overTime_type;
     //加班选择类型（加班费、加班商品）
-    private int overTimeType;
+    private int overTime_type;
     //创建时间
-    private Date createTime;
+    private Date create_time;
     //组长是否同意
-    private int ifAgreeOverTime;
+    private int if_agree_overTime;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public Integer getIfOverTimeType() {
-        return ifOverTimeType;
+    public int getIf_overTime_type() {
+        return if_overTime_type;
     }
 
-    public void setIfOverTimeType(Integer ifOverTimeType) {
-        this.ifOverTimeType = ifOverTimeType;
+    public void setIf_overTime_type(int if_overTime_type) {
+        this.if_overTime_type = if_overTime_type;
     }
 
-    public Integer getOverTimeType() {
-        return overTimeType;
+    public int getOverTime_type() {
+        return overTime_type;
     }
 
-    public void setOverTimeType(Integer overTimeType) {
-        this.overTimeType = overTimeType;
+    public void setOverTime_type(int overTime_type) {
+        this.overTime_type = overTime_type;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreate_time() {
+        return create_time;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 
-    public Integer getIfAgreeOverTime() {
-        return ifAgreeOverTime;
+    public int getIf_agree_overTime() {
+        return if_agree_overTime;
     }
 
-    public void setIfAgreeOverTime(Integer ifAgreeOverTime) {
-        this.ifAgreeOverTime = ifAgreeOverTime;
+    public void setIf_agree_overTime(int if_agree_overTime) {
+        this.if_agree_overTime = if_agree_overTime;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 @Component("admincountservice")
 public class AdminCountServicerImpl implements IAdminCountService {
@@ -27,9 +27,10 @@ public class AdminCountServicerImpl implements IAdminCountService {
 
     @Override
     public List<AdminCount> getAdminCount(Date queryDay, int page, int counts) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD hh-mm-ss");
-        String format = simpleDateFormat.format(queryDay);
-        return adminCountMapper.getAdminCount(format.substring(0,9),page,counts);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD hh-mm-ss");
+//        String format = simpleDateFormat.format(queryDay);
+        String date = queryDay.toString().substring(0, 10);
+        return adminCountMapper.getAdminCount(date,page,counts);
     }
 
     @Override

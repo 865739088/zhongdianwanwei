@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>欢迎登录</title>
-    <link rel="stylesheet" href="/zdww/css/login.css">
-    <script type="text/javascript" src="/zdww/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/zdww/js/login.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
 </head>
 
 <body>
@@ -15,15 +15,22 @@
         <h2>
             <span>登录</span>
         </h2>
-        <form id="loginform" name="loginform" method="POST" action="login">
+        <form id="loginform" name="loginform" method="POST">
             <div calss="item">
-                <input type="text" placeholder="账号" id="username" name="userName" onblur="cleanNerror();">
+                <input type="text" placeholder="账号" id="username" name="username" onblur="cleanNerror();">
             </div>
             <div class="item">
                 <input type="password" placeholder="密码" id="password" name="password" onblur="cleanPerror();">
             </div>
             <div class="button">
-                <button onclick="Login()">登录</button>
+
+                <input type="submit" value="登录" class="button1" onclick="Login()">
+
+                <button>
+                    <a href="index.html">登录</a>
+                </button>
+
+
             </div>
             <div class="message" id="message">
                 <label></label>

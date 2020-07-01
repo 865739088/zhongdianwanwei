@@ -2,7 +2,7 @@ package com.zhongdianwanwei.service;
 
 import com.zhongdianwanwei.model.AdminCount;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public interface IAdminCountService {

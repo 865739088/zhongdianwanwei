@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 @Api("管理员统计Api")
 @Controller
@@ -34,7 +34,7 @@ public class AdminCountCtroller {
     }
     @ResponseBody
     @RequestMapping(value = "/getAdminCount",method = RequestMethod.GET)
-    public  List<AdminCount> getAdminCount(@RequestParam Date date,@RequestParam int page,@RequestParam int counts){
+    public  List<AdminCount> getAdminCount(@RequestParam Date date, @RequestParam int page, @RequestParam int counts){
         List<AdminCount> result=null;
         result = adminCountService.getAdminCount(date,page, counts);
         return result;
