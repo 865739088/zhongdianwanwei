@@ -26,15 +26,20 @@ public class AdminCountServicerImpl implements IAdminCountService {
     }
 
     @Override
-    public List<AdminCount> getAdminCount(Date queryDay, int page, int counts) {
+    public List<AdminCount> getAdminCount(String queryDay, int page, int counts) {
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD hh-mm-ss");
 //        String format = simpleDateFormat.format(queryDay);
-        String date = queryDay.toString().substring(0, 10);
+        String date = queryDay.substring(0, 10);
         return adminCountMapper.getAdminCount(date,page,counts);
     }
 
     @Override
     public int insertAdminCount(AdminCount adminCount) {
         return adminCountMapper.insertAdminCount(adminCount);
+    }
+
+    @Override
+    public int updateAdminCountById(AdminCount adminCount) {
+        return adminCountMapper.updateAdminCountById(adminCount);
     }
 }

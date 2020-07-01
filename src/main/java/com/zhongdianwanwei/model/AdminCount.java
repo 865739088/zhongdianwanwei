@@ -1,7 +1,7 @@
 package com.zhongdianwanwei.model;
 
 
-import java.sql.Date;
+import java.util.Date;
 
 //用于管理员做统计model
 /*

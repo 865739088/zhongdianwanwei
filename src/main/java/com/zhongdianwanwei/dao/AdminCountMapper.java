@@ -25,4 +25,11 @@ public interface AdminCountMapper {
      */
     int insertAdminCount(@Param("adminCount") AdminCount adminCount);
 
+    /**
+     * 修改数据
+     * @param adminCount
+     * @return
+     */
+    int updateAdminCountById(@Param("adminCount")AdminCount adminCount);
+
 }

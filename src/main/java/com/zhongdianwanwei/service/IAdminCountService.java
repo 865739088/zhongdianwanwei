@@ -22,7 +22,7 @@ public interface IAdminCountService {
      * @param counts
      * @return
      */
-    List<AdminCount> getAdminCount(Date queryDay,int page,int counts);
+    List<AdminCount> getAdminCount(String queryDay,int page,int counts);
 
     /**
      * 插入数据
@@ -30,4 +30,11 @@ public interface IAdminCountService {
      * @return
      */
     int insertAdminCount(AdminCount adminCount);
+
+    /**
+     * 修改数据
+     * @param adminCount
+     * @return
+     */
+    int updateAdminCountById(AdminCount adminCount);
 }
