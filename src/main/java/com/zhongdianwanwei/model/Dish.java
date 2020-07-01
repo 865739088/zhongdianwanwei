@@ -1,6 +1,8 @@
 package com.zhongdianwanwei.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * 菜品
@@ -15,6 +17,7 @@ public class Dish {
     private BigDecimal price;       //菜品价格
     private String img;             //菜品图片路径
     private String mark;            //菜品描述
+    private Integer count;          //指的是配置菜单中的菜品数量
 
     public Integer getId() {
         return id;
@@ -56,14 +59,29 @@ public class Dish {
         this.mark = mark;
     }
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Dishes{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", price=").append(price);
-        sb.append(", img='").append(img).append('\'');
-        sb.append(", mark='").append(mark).append('\'');
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"id\":")
+                .append(id);
+        sb.append(",\"name\":\"")
+                .append(name).append('\"');
+        sb.append(",\"price\":")
+                .append(price);
+        sb.append(",\"img\":\"")
+                .append(img).append('\"');
+        sb.append(",\"mark\":\"")
+                .append(mark).append('\"');
+        sb.append(",\"count\":")
+                .append(count);
         sb.append('}');
         return sb.toString();
     }

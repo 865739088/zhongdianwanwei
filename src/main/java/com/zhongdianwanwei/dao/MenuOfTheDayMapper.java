@@ -37,11 +37,25 @@ public interface MenuOfTheDayMapper {
                                  @Param("rowSize") Integer rowSize);
 
     /**
+     * 统计表中菜单ID在参数IDs数组中的数量
+     * @param IDs
+     * @return
+     */
+    Integer countMenusByIDs(Integer[] IDs);
+
+    /**
      * 根据MenuId删除一个菜单
-     * @param menuId 需要删除的菜单Id
+     * @param menuID 需要删除的菜单Id
      * @return 影响的表条数
      */
-    Integer deleteMenu(Integer menuId);
+    Integer deleteMenuByID(Integer menuID);
+
+    /**
+     * 根据ID数组删除对应菜单
+     * @param menuIDs
+     * @return
+     */
+    Integer deleteMenusByIDs(Integer[] menuIDs);
 
     /**
      * 根据MenuId修改一个菜单

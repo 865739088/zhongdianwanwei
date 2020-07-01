@@ -4,41 +4,95 @@
 
 <mapper namespace="com.zhongdianwanwei.dao.MenuOfTheDayMapper">
 
+    <!-- 查询结果映射 -->
+    <resultMap id="menuOfTheDayMap" type="com.zhongdianwanwei.model.MenuOfTheDay">
+        <id column="id" property="id"/>
+        <result column="dishes_ids" property="dishesIds"/>
+        <result column="create_date" property="createTime"/>
+        <result column="adapt_date" property="adaptTime"/>
+        <result column="dishes_counts" property="dishesCounts"/>
+    </resultMap>
+
+
     <!-- 添加今日菜单到表中 -->
     <insert id="insertDailyMenu" parameterType="com.zhongdianwanwei.model.MenuOfTheDay">
         insert into menuOfTheDay(
             dishes_ids,
+            dishes_counts,
             create_date,
             adapt_date
         )
         values(
             #{dishesIds},
+            #{dishesCounts},
             #{createTime},
             #{adaptTime}
         )
     </insert>
 
-    <!-- 根据Id删除表中对应的每日菜单数据 -->
-    <delete id="deleteMenu" parameterType="Integer">
-        delete from table menuOfTheDay where id #{menuId}
-    </delete>
-
     <!-- 根据Id查找对应的每日菜单数据  -->
-    <select id="getMenu" parameterType="Integer" resultType="com.zhongdianwanwei.model.MenuOfTheDay">
+    <select id="getMenuById" parameterType="Integer" resultMap="menuOfTheDayMap">
         select
             m.id,
             m.dishes_ids,
+            m.dishes_counts,
             m.create_date,
             m.adapt_date
         from menuOfTheDay m where m.id = #{id}
     </select>
 
+    <!-- 根据使用日期查找对应的菜单数据 -->
+    <select id="getMenuByApartDate" parameterType="java.sql.Timestamp" resultMap="menuOfTheDayMap">
+        select
+            m.id,
+            m.dishes_ids,
+            m.dishes_counts,
+            m.create_date,
+            m.adapt_date
+        from menuOfTheDay m where Date(m.adapt_date) = Date(#{adaptTime})
+    </select>
+
+    <!-- 统计IDs数组中对应的数据有多少存在于表中 -->
+    <select id="countMenusByIDs" resultType="Integer">
+        select count(id) from menuOfTheDay
+        where id in
+        <foreach collection="array" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 根据分页查找所有菜单 -->
+    <select id="listMenus"  resultMap="menuOfTheDayMap">
+        select
+            m.id,
+            m.dishes_ids,
+            m.dishes_counts,
+            m.create_date,
+            m.adapt_date
+        from menuOfTheDay m
+        limit #{offset}, #{rowSize}
+    </select>
+
+    <!-- 根据ID删除表中对应的每日菜单数据 -->
+    <delete id="deleteMenuByID" parameterType="Integer">
+        delete from menuOfTheDay where id = #{menuID}
+    </delete>
+
+    <!-- 根据ID数组删除表中对应的每日菜单数据 -->
+    <delete id="deleteMenusByIDs">
+        delete from menuOfTheDay
+        where id in
+        <foreach collection="array" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
     <!-- 修改每日菜单数据  -->
     <update id="updateMenu" parameterType="com.zhongdianwanwei.model.MenuOfTheDay">
         update menuOfTheDay
         set
-            dishes.ids = #{dishes_ids},
-            create_date = #{createTime},
+            dishes_ids = #{dishesIds},
+            dishes_counts = #{dishesCounts},
             adapt_date = #{adaptTime}
         where
             id = #{id}
