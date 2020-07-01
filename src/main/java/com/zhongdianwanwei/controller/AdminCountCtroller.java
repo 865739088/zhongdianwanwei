@@ -7,10 +7,7 @@ import com.zhongdianwanwei.model.AdminCount;
 import com.zhongdianwanwei.service.IAdminCountService;
 import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -22,24 +19,25 @@ public class AdminCountCtroller {
     @Resource(name = "admincountservice")
     private IAdminCountService adminCountService;
     @RequestMapping(value = "/getTodayAdminCount",method = RequestMethod.GET)
-    public String getTodayAdminCount(@RequestParam int page,@RequestParam int counts){
-        try {
-            List<AdminCount> result = adminCountService.getTodayAdminCount(page, counts);
-            return result.toString();
-        }catch (Exception e){
-            e.printStackTrace();
-            return "系统内部错误";
-        }
+    @ResponseBody
+    public  List<AdminCount> getTodayAdminCount(@RequestParam int page){
+        List<AdminCount> result=null;
+        result = adminCountService.getTodayAdminCount(page, 5);
+        return result;
     }
+    @RequestMapping(value = "/getAllAdminCount",method = RequestMethod.GET)
+    @ResponseBody
+    public  List<AdminCount> getAllAdminCount(){
+        List<AdminCount> result=null;
+        result = adminCountService.getAllAdminCount();
+        return result;
+    }
+    @ResponseBody
     @RequestMapping(value = "/getAdminCount",method = RequestMethod.GET)
-    public String getAdminCount(@RequestParam Date date,@RequestParam int page,@RequestParam int counts){
-        try {
-            List<AdminCount> result = adminCountService.getAdminCount(date,page, counts);
-            return result.toString();
-        }catch (Exception e){
-            e.printStackTrace();
-            return "系统内部错误";
-        }
+    public  List<AdminCount> getAdminCount(@RequestParam Date date,@RequestParam int page,@RequestParam int counts){
+        List<AdminCount> result=null;
+        result = adminCountService.getAdminCount(date,page, counts);
+        return result;
     }
     @RequestMapping(value = "/toLogin",method = RequestMethod.GET)
     public String toLogin(){

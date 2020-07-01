@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface IAdminCountService {
+    List<AdminCount> getAllAdminCount();
     /**
      * 默认查询当日统计数据
      * @param page

@@ -15,8 +15,14 @@ public class AdminCountServicerImpl implements IAdminCountService {
     private AdminCountMapper adminCountMapper;
 
     @Override
+    public List<AdminCount> getAllAdminCount() {
+        return adminCountMapper.getAllAdminCount();
+    }
+
+    @Override
     public List<AdminCount> getTodayAdminCount(int page, int counts) {
-        return adminCountMapper.getTodayAdminCount(page, counts);
+        List<AdminCount> todayAdminCount = adminCountMapper.getTodayAdminCount(page, counts);
+        return todayAdminCount;
     }
 
     @Override

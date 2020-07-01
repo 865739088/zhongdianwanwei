@@ -12,13 +12,13 @@ public class AdminCount {
     //用户编号
     private Integer userId;
     //是否加班
-    private Integer isOverTime;
+    private Integer ifOverTimeType;
     //加班选择类型（加班费、加班商品）
     private Integer overTimeType;
     //创建时间
     private Date createTime;
     //组长是否同意
-    private Integer isAgree;
+    private Integer ifAgreeOverTime;
 
     public Integer getId() {
         return id;
@@ -36,12 +36,12 @@ public class AdminCount {
         this.userId = userId;
     }
 
-    public Integer getIsOverTime() {
-        return isOverTime;
+    public Integer getIfOverTimeType() {
+        return ifOverTimeType;
     }
 
-    public void setIsOverTime(Integer isOverTime) {
-        this.isOverTime = isOverTime;
+    public void setIfOverTimeType(Integer ifOverTimeType) {
+        this.ifOverTimeType = ifOverTimeType;
     }
 
     public Integer getOverTimeType() {
@@ -60,11 +60,11 @@ public class AdminCount {
         this.createTime = createTime;
     }
 
-    public Integer getIsAgree() {
-        return isAgree;
+    public Integer getIfAgreeOverTime() {
+        return ifAgreeOverTime;
     }
 
-    public void setIsAgree(Integer isAgree) {
-        this.isAgree = isAgree;
+    public void setIfAgreeOverTime(Integer ifAgreeOverTime) {
+        this.ifAgreeOverTime = ifAgreeOverTime;
     }
 }

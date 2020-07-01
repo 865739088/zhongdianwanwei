@@ -83,6 +83,16 @@
     margin: 15px 0;
 }
 
+
+/* 图表 */
+
+#echar {
+    width: 1200px;
+    height: 550px;
+    margin-top: 5px;
+    /*  background-color: pink; */
+}
+
 .check-cart-item {
     background: #fff4e8;
 }
@@ -231,3 +241,6 @@
     background: #e54346;
     overflow: hidden;
 }
+
+
+/* 图表 */
