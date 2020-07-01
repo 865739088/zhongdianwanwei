@@ -1,6 +1,10 @@
 package com.zhongdianwanwei.dao;
 
 import com.zhongdianwanwei.model.MenuOfTheDay;
+import org.apache.ibatis.annotations.Param;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 public interface MenuOfTheDayMapper {
 
@@ -12,6 +16,27 @@ public interface MenuOfTheDayMapper {
     Integer insertDailyMenu(MenuOfTheDay menu);
 
     /**
+     * 根据MenuId查找一个菜单
+     * @param id 需要查找的菜单Id
+     * @return 查找出的Menu
+     */
+    MenuOfTheDay getMenuById(Integer id);
+
+    /**
+     * 根据菜单生效时间查找出那一天生效的菜单
+     * @param adaptDate 菜单生效时间
+     * @return 在这一天生效的菜单
+     */
+    MenuOfTheDay getMenuByApartDate(Timestamp adaptDate);
+
+    /**
+     * 按照分页查询菜单集合
+     * @return
+     */
+    List<MenuOfTheDay> listMenus(@Param("offset") Integer offset,
+                                 @Param("rowSize") Integer rowSize);
+
+    /**
      * 根据MenuId删除一个菜单
      * @param menuId 需要删除的菜单Id
      * @return 影响的表条数
@@ -19,17 +44,11 @@ public interface MenuOfTheDayMapper {
     Integer deleteMenu(Integer menuId);
 
     /**
-     * 根据MenuId查找一个菜单
-     * @param menuId 需要查找的菜单Id
-     * @return 查找出的Menu
-     */
-    MenuOfTheDayMapper getMenu(Integer menuId);
-
-    /**
      * 根据MenuId修改一个菜单
-     * @param m 修改后的菜单信息
+     * @param menuOfTheDay 修改后的菜单信息
      * @return 影响的表条数
      */
-    Integer updateMenu(MenuOfTheDayMapper m);
+    Integer updateMenu(MenuOfTheDay menuOfTheDay);
+
 
 }
