@@ -71,6 +71,18 @@
 			</exclusions>
 		</dependency>
 
+		<!--引入thymeleaf依赖-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+<!--		bootstrap-->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.0.0</version>
+		</dependency>
 
 		<!--数据库连接池-->
 		<dependency>
