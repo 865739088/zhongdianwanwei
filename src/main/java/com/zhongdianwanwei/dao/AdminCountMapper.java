@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface AdminCountMapper {
 
-    List<AdminCount>  getAllAdminCount();
+    AdminCount  getAdminCountById(@Param("id") int id);
 
     /**
      * 默认统计今日数据，分页展示

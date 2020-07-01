@@ -4,13 +4,17 @@ package com.zhongdianwanwei.controller;
 *  author：金鑫
  */
 import com.zhongdianwanwei.model.AdminCount;
+import com.zhongdianwanwei.model.User;
 import com.zhongdianwanwei.service.IAdminCountService;
+import com.zhongdianwanwei.service.IUserService;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Api("管理员统计Api")
@@ -19,6 +23,8 @@ public class AdminCountCtroller {
 
     @Resource(name = "admincountservice")
     private IAdminCountService adminCountService;
+    @Autowired
+    private IUserService userService;
 
     /**
      * 查询今日数据
@@ -30,18 +36,6 @@ public class AdminCountCtroller {
     public  List<AdminCount> getTodayAdminCount(@RequestParam int page){
         List<AdminCount> result=null;
         result = adminCountService.getTodayAdminCount(page, 5);
-        return result;
-    }
-
-    /**
-     * 查询所有数据
-     * @return
-     */
-    @RequestMapping(value = "/getAllAdminCount",method = RequestMethod.GET)
-    @ResponseBody
-    public  List<AdminCount> getAllAdminCount(){
-        List<AdminCount> result=null;
-        result = adminCountService.getAllAdminCount();
         return result;
     }
 
@@ -99,11 +93,11 @@ public class AdminCountCtroller {
     }
 
     /**
-     * 用户提交所选加班类型
+     * 用户提交所选菜单
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/leaderAgreeOverTime")
+    @RequestMapping(value = "/userSubmitChoose")
     @ResponseBody
     public String userSubmitChoose(@RequestParam int userId,@RequestParam int choose){
         AdminCount adminCount = new AdminCount();
@@ -115,4 +109,24 @@ public class AdminCountCtroller {
         }else
             return "提交失败";
     }
+
+    /**
+     * 组长查看当前组内人员申请加班情况
+     * @param userId
+     * @param groupId
+     * @return
+     */
+    @RequestMapping(value = "/leaderErgodicRequests")
+    @ResponseBody
+    public  List<AdminCount> leaderErgodicRequests(@RequestParam int userId,@RequestParam int groupId){
+        List<User> users = userService.getUserByGroupId(groupId);
+        List<AdminCount> list= new ArrayList<>();
+        for (User user:users){
+            int id = user.getId();
+            AdminCount adminCountById = adminCountService.getAdminCountById(id);
+            list.add(adminCountById);
+        }
+        return list;
+    }
+
 }

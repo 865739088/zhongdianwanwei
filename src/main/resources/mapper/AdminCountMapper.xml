@@ -4,9 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zhongdianwanwei.dao.AdminCountMapper">
-    <select id="getAllAdminCount" resultType="com.zhongdianwanwei.model.AdminCount">
+    <select id="getAdminCountById" resultType="com.zhongdianwanwei.model.AdminCount">
         select * from
-        adminCount;
+        adminCount
+        where id = #{id};
     </select>
     <select id="getTodayAdminCount" resultType="com.zhongdianwanwei.model.AdminCount">
         select * from

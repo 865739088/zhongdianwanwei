@@ -24,4 +24,9 @@ public class UserServiceImpl implements IUserService {
     public User getUserByUserName(String userName) {
         return userMapper.getUserByUserName(userName);
     }
+
+    @Override
+    public List<User> getUserByGroupId(int groupId) {
+        return userMapper.getUserByGroupId(groupId);
+    }
 }

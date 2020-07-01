@@ -1,12 +1,13 @@
 package com.zhongdianwanwei.service;
 
 import com.zhongdianwanwei.model.AdminCount;
+import org.apache.ibatis.annotations.Param;
 
 import java.sql.Date;
 import java.util.List;
 
 public interface IAdminCountService {
-    List<AdminCount> getAllAdminCount();
+    AdminCount  getAdminCountById(int id);
     /**
      * 默认查询当日统计数据
      * @param page
