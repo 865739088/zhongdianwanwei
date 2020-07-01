@@ -8,17 +8,17 @@ import java.util.Date;
 */
 public class AdminCount {
     //表内自增id
-    private Integer id;
+    private int id;
     //用户编号
-    private Integer userId;
+    private int userId;
     //是否加班
-    private Integer ifOverTimeType;
+    private int ifOverTimeType;
     //加班选择类型（加班费、加班商品）
-    private Integer overTimeType;
+    private int overTimeType;
     //创建时间
     private Date createTime;
     //组长是否同意
-    private Integer ifAgreeOverTime;
+    private int ifAgreeOverTime;
 
     public Integer getId() {
         return id;
