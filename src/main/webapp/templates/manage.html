@@ -1,0 +1,23 @@
+<header>
+    <div class="logo">
+        <span>订餐系统</span>
+    </div>
+    <ul class="list-inline info-box">
+        <li ng-bind="currentUser"></li>
+        <li>
+            <a href="javascript:void(0)" ng-click="logout()">注销</a>
+        </li>
+    </ul>
+</header>
+<main>
+    <aside>
+        <!--<div ng-repeat="menu in menus" class="menu" ng-class="{true: 'active'}[menu.selected]" ui-sref="{{menu.router}}" ng-click="select(menu)">
+            <i class="fa {{menu.icon}}"></i>user.html
+            <span ng-bind="menu.name"></span>
+        </div>-->
+        <div class="menu" ui-sref="manage.dishes">菜品管理</div>
+        <div class="menu" ui-sref="manage.user">用户管理</div>
+    </aside>
+
+    <section ui-view></section>
+</main>

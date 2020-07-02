@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">修改用户信息</h4>
+</div>
+<div class="modal-body">
+    <div class="add-group">
+        <span class="text">用户名</span>
+        <span ng-bind="user.username"></span>
+    </div>
+    <div class="add-group">
+        <span class="text">姓&nbsp;&nbsp;&nbsp;名</span>
+        <input type="text" ng-model="user.name">
+        <span class="tip" ng-bind="nameTip"></span>
+    </div>
+    <div class="add-group">
+        <span class="text">角&nbsp;&nbsp;&nbsp;色</span>
+        <select ng-model="user.role" ng-options="r.name for r in roles"></select>
+        <span class="tip" ng-bind="roleTip"></span>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+    <button type="button" class="btn btn-success" ng-click="save()">保存</button>
+</div>

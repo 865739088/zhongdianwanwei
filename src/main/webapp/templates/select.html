@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加班餐系统</title>
+    <link rel="shortcut icon" href="./img/jlogo.png">
+    <link rel="stylesheet" href="css/select.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="b">
+        <h2>
+            <span>员工申请加班餐</span>
+        </h2>
+        <form id="b-form" name="b-form" method="POST">
+            <div calss="item">
+                <!-- <input type="buttom" value="加班费申请" id="b-money" name="b-money"> -->
+                <button id="b-money" name="b-money" class="b-money">加班费申请</button>
+                <p class="message">请确认</p>
+            </div>
+            <div class="item">
+                <button id="b-meal" name="b-meal" class="b-meal">加班餐申请</button>
+                <p class="message">请确认</p>
+            </div>
+            <div class="button">
+
+                <input type="submit" value="提交" class="button1">
+
+            </div>
+
+        </form>
+    </div>
+    <script>
+        //获取元素
+        var money = document.querySelector('.b-money');
+        var meal = document.querySelector('.b-meal');
+        var message = document.querySelector('.message');
+        //点击事件
+        money.addEventListener('click', function() {
+            alert('确认成功！');
+            message.className = 'message success';
+        });
+        meal.addEventListener('click', function() {
+            alert('确认成功！');
+            message.className = 'message success';
+        })
+    </script>
+
+
+</body>
+
+</html>
