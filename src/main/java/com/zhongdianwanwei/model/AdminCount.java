@@ -10,15 +10,15 @@ public class AdminCount {
     //表内自增id
     private Integer id;
     //用户编号
-    private Integer userId;
+    private Integer user_id;
     //是否加班
-    private Integer isOverTime;
+    private Integer if_overTime_type;
     //加班选择类型（加班费、加班商品）
-    private Integer overTimeType;
+    private Integer overTime_type;
     //创建时间
-    private Date createTime;
+    private Date create_time;
     //组长是否同意
-    private Integer isAgree;
+    private Integer if_agree_overTime;
 
     public Integer getId() {
         return id;
@@ -28,43 +28,43 @@ public class AdminCount {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
-    public Integer getIsOverTime() {
-        return isOverTime;
+    public Integer getIf_overTime_type() {
+        return if_overTime_type;
     }
 
-    public void setIsOverTime(Integer isOverTime) {
-        this.isOverTime = isOverTime;
+    public void setIf_overTime_type(Integer if_overTime_type) {
+        this.if_overTime_type = if_overTime_type;
     }
 
-    public Integer getOverTimeType() {
-        return overTimeType;
+    public Integer getOverTime_type() {
+        return overTime_type;
     }
 
-    public void setOverTimeType(Integer overTimeType) {
-        this.overTimeType = overTimeType;
+    public void setOverTime_type(Integer overTime_type) {
+        this.overTime_type = overTime_type;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreate_time() {
+        return create_time;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 
-    public Integer getIsAgree() {
-        return isAgree;
+    public Integer getIf_agree_overTime() {
+        return if_agree_overTime;
     }
 
-    public void setIsAgree(Integer isAgree) {
-        this.isAgree = isAgree;
+    public void setIf_agree_overTime(Integer if_agree_overTime) {
+        this.if_agree_overTime = if_agree_overTime;
     }
 }

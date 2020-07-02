@@ -1,10 +1,10 @@
-/*
+
 package com.zhongdianwanwei.controller;
-*/
+
 /*
 *  用于处理管理员统计请求controller
 *  author：金鑫
- *//*
+ */
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhongdianwanwei.model.AdminCount;
@@ -32,14 +32,13 @@ public class AdminCountCtroller {
     @Autowired
     private IUserService userService;
 
-    */
 /**
      * 查询今日数据
      * @param page
      * @return
-     *//*
+     */
 
-    @RequestMapping(value = "/getTodayAdminCount",method = RequestMethod.POST)
+    @RequestMapping(value = "/getTodayAdminCount",method = RequestMethod.GET)
     @ResponseBody
 
     public  List<AdminCount> getTodayAdminCount(@RequestParam int page){
@@ -51,17 +50,17 @@ public class AdminCountCtroller {
         return result;
     }
 
-    */
+
 /**
      * 查询某一天统计数据
      * @param date
      * @param page
      * @param counts
      * @return
-     *//*
+     */
 
     @ResponseBody
-    @RequestMapping(value = "/getAdminCount",method = RequestMethod.POST)
+    @RequestMapping(value = "/getAdminCount",method = RequestMethod.GET)
     public  List<AdminCount> getAdminCount(@RequestParam Date date, @RequestParam int page, @RequestParam int counts){
         List<AdminCount> result=null;
         result = adminCountService.getAdminCount(date.toString(),page, counts);
@@ -70,17 +69,18 @@ public class AdminCountCtroller {
         ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
         return result;
     }
-    @RequestMapping(value = "/toLogin",method = RequestMethod.POST)
+    @RequestMapping(value = "/toLogin",method = RequestMethod.GET)
     public String toLogin(){
-        return "login";
+
+        return "login.html";
     }
 
-    */
+
 /**
      * 用户提交加班申请
-     *//*
+     */
 
-    @RequestMapping(value = "/SubmitOverTime",method = RequestMethod.POST)
+    @RequestMapping(value = "/SubmitOverTime",method = RequestMethod.GET)
     @ResponseBody
     public String userSubmitOverTime(@RequestParam int userId){
         AdminCount adminCount = new AdminCount();
@@ -96,12 +96,12 @@ public class AdminCountCtroller {
         }else
             return "申请失败";
     }
-    */
+
 /**
      * 组长同意加班申请
-     *//*
+     */
 
-    @RequestMapping(value = "/leaderAgreeOverTime",method = RequestMethod.POST)
+    @RequestMapping(value = "/leaderAgreeOverTime",method = RequestMethod.GET)
     @ResponseBody
     public String leaderAgreeOverTime(@RequestParam int userId){
         AdminCount adminCount = new AdminCount();
@@ -114,14 +114,14 @@ public class AdminCountCtroller {
             return "操作失败";
     }
 
-    */
+
 /**
      * 用户提交所选菜单
      * @param userId
      * @return
-     *//*
+     */
 
-    @RequestMapping(value = "/userSubmitChoose",method = RequestMethod.POST)
+    @RequestMapping(value = "/userSubmitChoose",method = RequestMethod.GET)
     @ResponseBody
     public String userSubmitChoose(@RequestParam int userId,@RequestParam int choose){
         AdminCount adminCount = new AdminCount();
@@ -134,15 +134,15 @@ public class AdminCountCtroller {
             return "提交失败";
     }
 
-    */
+
 /**
      * 组长查看当前组内人员申请加班情况
      * @param userId
      * @param groupId
      * @return
-     *//*
+     */
 
-    @RequestMapping(value = "/leaderErgodicRequests",method = RequestMethod.POST)
+    @RequestMapping(value = "/leaderErgodicRequests",method = RequestMethod.GET)
     @ResponseBody
     public  List<AdminCount> leaderErgodicRequests(@RequestParam int userId,@RequestParam int groupId){
         List<User> users = userService.getUserByGroupId(groupId);
@@ -159,4 +159,4 @@ public class AdminCountCtroller {
     }
 
 }
-*/
+
