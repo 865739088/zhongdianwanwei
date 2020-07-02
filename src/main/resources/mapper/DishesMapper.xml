@@ -16,6 +16,7 @@
 
     <select id="getDish" parameterType="Integer" resultType="com.zhongdianwanwei.model.Dish">
         select
+            id,
             name,
             price,
             img,
@@ -25,6 +26,7 @@
 
     <select id="getDishesByIDs" resultType="com.zhongdianwanwei.model.Dish">
         select
+            id,
             name,
             price,
             img,

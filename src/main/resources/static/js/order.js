@@ -274,14 +274,19 @@ app.controller('dishesOfTheDayCtrl', function ($scope, $http,$uibModal, $state) 
     }
 
     //查询已配置当日菜品信息
-  /*  $scope.search = function () {
+    $scope.search = function () {
         $http({
-            url: 'getdishes',
+            url: 'MenuOfTheDay',
             method: 'get',
+            params:{
+                adaptTime:$scope.cond.data
+            }
         }).then(function (resp) {
-            $scope.dishes=resp.data.dishes;
+            console.log(resp.data[2]);
+            console.log(resp.data);
+            $scope.dishes=resp.data;
         });
-    }*/
+    }
 
     //添加当日菜单信息
     $scope.showAddModal = function () {
@@ -295,7 +300,7 @@ app.controller('dishesOfTheDayCtrl', function ($scope, $http,$uibModal, $state) 
                 $scope.cond={
                     name:'',
                     adaptTime:'',
-                    counts:1
+                    counts:[]
                 }
                 //查询已经有的菜品信息
                 $scope.search = function () {
@@ -317,9 +322,11 @@ app.controller('dishesOfTheDayCtrl', function ($scope, $http,$uibModal, $state) 
                         for(let i=0; i<$scope.dishes.length; i++){
                             $scope.dishes[i].selected = true;
                             $scope.selectedDishes.push($scope.dishes[i].id);
+                            $scope.cond.counts.push(1)
                         }
                     } else {
                         $scope.selectedDishes = [];
+                        $scope.cond.counts=[];
                         for(let i=0; i<$scope.dishes.length; i++){
                             $scope.dishes[i].selected = false;
                         }
@@ -328,10 +335,12 @@ app.controller('dishesOfTheDayCtrl', function ($scope, $http,$uibModal, $state) 
                 $scope.choose = function(dish){
                     if(dish.selected) {//选中，直接放入选中的数组
                         $scope.selectedDishes.push(dish.id);
+                        $scope.cond.counts.push(1);
                     } else {//没有选中，则从数组从移除
                         for(let i=0; i<$scope.selectedDishes.length; i++){
                             if($scope.selectedDishes[i] == dish.id){
                                 $scope.selectedDishes.splice(i, 1);
+                                $scope.cond.counts.splice(i,1);
                                 break;
                             }
                         }
@@ -340,16 +349,16 @@ app.controller('dishesOfTheDayCtrl', function ($scope, $http,$uibModal, $state) 
                 }
 
                 $scope.save = function(){
-                    delete $scope.user.confirm;
                     $http({
                         url: 'MenuOfTheDay',
                         method: 'post',
                         params: {
                             adaptTime:$scope.cond.adaptTime,
                             ids:$scope.selectedDishes,
-                            counts:$scope.cond.counts,
+                            counts:$scope.cond.counts
                         }
                     }).then(function (resp) {
+                        console.log(resp.data);
                         if(resp.data == 1){//添加成功
                             alert("添加成功");
                             $scope.cancel();

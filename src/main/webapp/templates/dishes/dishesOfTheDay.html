@@ -1,5 +1,5 @@
 <div class="condition-box">
-    <span>菜品名</span><input type="text" ng-model="cond.name">
+    <span>菜单使用时间</span><input type="datetime-local" ng-model="cond.data">
     <a class="btn btn-sm btn-default"  ng-click="search(true)">
         <i class="fa fa-search"></i>
         查询
@@ -38,7 +38,6 @@
             <th style="width: calc((100% - 25px ) * 20%);">菜品编号</th>
             <th style="width: calc((100% - 25px ) * 20%);">菜品名</th>
             <th style="width: calc((100% - 25px ) * 20%);">菜品价格</th>
-            <th style="width: calc((100% - 25px ) * 20%);">适用时间</th>
             <th style="width: calc((100% - 25px ) * 20%);">操作</th>
         </tr>
         </thead>
@@ -48,7 +47,6 @@
             <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.id"></td>
             <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.name"></td>
             <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.price"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.adaptTime"></td>
             <td style="width: calc((100% - 25px ) * 20%);">
                 <a ng-click="showUpdateModal(dish)">修改</a>
                 <a ng-click="deleteDish(dish.id)">删除</a>

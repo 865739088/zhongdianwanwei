@@ -32,6 +32,7 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
 
     @Override
     public ResponseMessage saveDailyMenu(String adaptDateTimeStr, Integer[] dishIDs, Integer[] dishCounts) {
+        adaptDateTimeStr=adaptDateTimeStr.substring(0,adaptDateTimeStr.length()-1);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime adaptDateTime = LocalDateTime.parse(adaptDateTimeStr);
         MenuOfTheDay menuOfTheDay = new MenuOfTheDay();
@@ -63,6 +64,9 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
 
     @Override
     public ResponseMessage getMenuByAdaptTime(String adaptDateTimeStr) {
+        adaptDateTimeStr=adaptDateTimeStr.substring(0,19);
+        adaptDateTimeStr=adaptDateTimeStr.replace("T"," ");
+        System.out.println(adaptDateTimeStr);
         MenuOfTheDay menu =
                 menuOfTheDayMapper.getMenuByApartDate(Timestamp.valueOf(adaptDateTimeStr));
         if(menu != null){
@@ -191,7 +195,7 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
             map.put(dishIDs[i], dishCoounts[i]);
         }
         List<Dish> dishes = dishesMapper.getDishesByIDs(dishIDs);
-        for (int i=0; i<dishes.size(); ++i){
+        for (int i=0; i<dishes.size(); i++){
             Dish dish = dishes.get(i);
             dish.setCount(map.get(dish.getId()));
         }
