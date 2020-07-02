@@ -336,7 +336,7 @@ app.controller('dishesOfTheDayCtrl', function ($scope, $http,$uibModal, $state) 
                             }
                         }
                     }
-                    $scope.selectedAll = ($scope.selectedUsernames.length == $scope.totalCount);
+                    $scope.selectedAll = ($scope.selectedDishes.length == $scope.totalCount);
                 }
 
                 $scope.save = function(){
