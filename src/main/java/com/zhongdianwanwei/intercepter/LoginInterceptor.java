@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         Object user = request.getSession().getAttribute("userName");
         System.out.println(user);
         if (user == null) {
-            request.getRequestDispatcher("/").forward(request,response);
+            request.getRequestDispatcher("/order").forward(request,response);
             return false;
         } else {
             return true;

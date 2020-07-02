@@ -23,7 +23,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/login", "/login.html","/css/**", "/js/**", "/img/**","/order","/templates/**");
+                .excludePathPatterns("/", "/login", "/login.html","/css/**", "/js/**", "/img/**","/order","/templates/**","/fonts/**");
 
     }
     // 这个方法是用来配置静态资源的，比如html，js，css，等等
