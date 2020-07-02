@@ -71,11 +71,11 @@
 			</exclusions>
 		</dependency>
 
-		<!--引入thymeleaf依赖-->
+		<!--引入thymeleaf依赖
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
+		</dependency>-->
 
 <!--		bootstrap-->
 		<dependency>
@@ -115,10 +115,18 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--访问静态资源-->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>9.0.30</version>
+		</dependency>
+
+		<!--JavaServer Pages Standard Tag Library，JSP标准标签库-->
+		<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 	</dependencies>
