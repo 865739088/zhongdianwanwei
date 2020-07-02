@@ -13,4 +13,23 @@
         from dishes  where id = #{id}
     </select>
 
+    <select id="getDishesByIDs" resultType="com.zhongdianwanwei.model.Dish">
+        select
+            name,
+            price,
+            img,
+            mark
+        from dishes  where id in 
+        <foreach collection="array" item="item" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="countDishesByIDs" resultType="Integer">
+        select count(id) from dishes where id in
+        <foreach collection="array" item="item" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>

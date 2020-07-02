@@ -1,16 +1,17 @@
 package com.zhongdianwanwei.service.impl;
 
-import com.zhongdianwanwei.service.IMenuOfTheDayService;
 import com.zhongdianwanwei.dao.DishesMapper;
 import com.zhongdianwanwei.dao.MenuOfTheDayMapper;
 import com.zhongdianwanwei.model.Dish;
 import com.zhongdianwanwei.model.MenuOfTheDay;
+import com.zhongdianwanwei.service.IMenuOfTheDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,53 +29,76 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
     @Autowired
     private MenuOfTheDayMapper menuOfTheDayMapper;
 
-
-
     @Override
-    public Boolean saveDailyMenu(String adaptDateTimeStr, Integer[] dishIds) {
+    public Boolean saveDailyMenu(String adaptDateTimeStr, Integer[] dishIDs, Integer[] dishCounts) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime adaptDateTime = LocalDateTime.parse(adaptDateTimeStr);
         MenuOfTheDay menuOfTheDay = new MenuOfTheDay();
         StringBuffer dishIdsStr = new StringBuffer();
-        List<Dish> dishes = new ArrayList<>();
+        StringBuffer dishCountsStr = new StringBuffer();
         if (!checkAdaptDateTimeStr(now, adaptDateTime, null)) {
             return false;
         }
-        if (!listDishes(dishIds, dishIdsStr, dishes)) {
+        if (!listDishes(dishIDs, dishIdsStr, dishCounts, dishCountsStr)) {
             return false;
         }
         menuOfTheDay.setCreateTime(Timestamp.valueOf(now));
         menuOfTheDay.setAdaptTime(Timestamp.valueOf(adaptDateTime));
-        menuOfTheDay.setDishes(dishes);
         menuOfTheDay.setDishesIds(dishIdsStr.toString());
+        menuOfTheDay.setDishesCounts(dishCountsStr.toString());
         return menuOfTheDayMapper.insertDailyMenu(menuOfTheDay) > 0;
     }
 
     @Override
     public MenuOfTheDay getMenuById(Integer id) {
-        return menuOfTheDayMapper.getMenuById(id);
+        MenuOfTheDay menu = menuOfTheDayMapper.getMenuById(id);
+        if(menu != null){
+            menu.setDishes(getDishesOfMenu(menu));
+        }
+        return menu;
     }
 
     @Override
     public MenuOfTheDay getMenuByAdaptTime(String adaptDateTimeStr) {
-        return menuOfTheDayMapper.getMenuByApartDate(Timestamp.valueOf(adaptDateTimeStr));
+        MenuOfTheDay menu =
+                menuOfTheDayMapper.getMenuByApartDate(Timestamp.valueOf(adaptDateTimeStr));
+        if(menu != null){
+            menu.setDishes(getDishesOfMenu(menu));
+        }
+        return menu;
     }
 
     @Override
     public List<MenuOfTheDay> listMenus(Integer pageIndex, Integer pageSize) {
-        List<MenuOfTheDay> menuOfTheDays = menuOfTheDayMapper.listMenus((pageIndex - 1) * pageSize, pageSize);
-        for (MenuOfTheDay menuOfTheDay : menuOfTheDays) {
-            System.out.println(menuOfTheDay);
-        }
-        return menuOfTheDays;
+        return menuOfTheDayMapper.listMenus((pageIndex - 1) * pageSize, pageSize);
     }
 
     @Override
-    public Boolean updateDailyMenu(Integer id, String adaptDateTimeStr, Integer[] dishIds) {
+    public Boolean removeMenuByID(Integer id) {
+        if (id == null) {
+            return false;
+        }
+        return menuOfTheDayMapper.deleteMenuByID(id) > 0;
+    }
+
+    @Override
+    public Boolean removeMenusByIDs(Integer[] ids) {
+        if (ids == null || ids.length < 1) {
+            return false;
+        }
+        if (menuOfTheDayMapper.countMenusByIDs(ids) != ids.length) {
+            return false;
+        }
+        return menuOfTheDayMapper.deleteMenusByIDs(ids) == ids.length;
+    }
+
+    @Override
+    public Boolean updateDailyMenu(Integer id, String adaptDateTimeStr, Integer[] dishIDs, Integer[] dishCounts) {
         MenuOfTheDay menuOfTheDay = menuOfTheDayMapper.getMenuById(id);
         LocalDateTime adaptDateTime = LocalDateTime.parse(adaptDateTimeStr);
         StringBuffer dishIdsStr = new StringBuffer();
-        List<Dish> dishes = new ArrayList<>();
+        StringBuffer dishCountsStr = new StringBuffer();
+
         // 修改数据不存在
         if (menuOfTheDay == null) {
             return false;
@@ -83,12 +107,12 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
                 adaptDateTime, menuOfTheDay.getId())) {
             return false;
         }
-        if (!listDishes(dishIds, dishIdsStr, dishes)) {
+        if (!listDishes(dishIDs, dishIdsStr, dishCounts, dishCountsStr)) {
             return false;
         }
         menuOfTheDay.setAdaptTime(Timestamp.valueOf(adaptDateTime));
-        menuOfTheDay.setDishes(dishes);
         menuOfTheDay.setDishesIds(dishIdsStr.toString());
+        menuOfTheDay.setDishesCounts(dishCountsStr.toString());
         return menuOfTheDayMapper.updateMenu(menuOfTheDay) > 0 ? true : false;
     }
 
@@ -114,25 +138,67 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
     }
 
     /**
-     * 根据餐品id列表获取菜品列表
-     * @param dishIds
-     * @param dishIdsStr
-     * @param dishes
+     * 根据菜品id数组列表获取菜品列表以及数量列表
+     * @param dishIDs 菜品id数组
+     * @param dishIDsStr 需要生成的表中菜品id列表字符串
+     * @param dishCounts  菜品数量数组
+     * @param dishCountsStr 需要生成的表中菜品数量列表字符串
      * @return
      */
-    private Boolean listDishes(Integer[] dishIds, StringBuffer dishIdsStr, List<Dish> dishes){
-        for (Integer dishId : dishIds) {
-            Dish dish = dishesMapper.getDishes(dishId);
-            // dish==null 表明查找失败
-            if(dish == null){
-                return false;
-            }
-            dishIdsStr.append(dishId).append(',');
-            dishes.add(dish);
+    private Boolean listDishes(Integer[] dishIDs, StringBuffer dishIDsStr,
+                               Integer[] dishCounts, StringBuffer dishCountsStr){
+        Integer counts = dishesMapper.countDishesByIDs(dishIDs);
+        //表明存在查不到的菜品
+        if (counts != dishIDs.length){
+            return false;
         }
-        if(dishIdsStr.length()>0){
-            dishIdsStr.deleteCharAt(dishIdsStr.length()-1);
+        for (int i=0; i<dishIDs.length; ++i){
+            dishIDsStr.append(dishIDs[i]).append(',');
+            dishCountsStr.append(dishCounts[i]).append(',');
         }
+        dishIDsStr.deleteCharAt(dishIDsStr.length()-1);
+        dishCountsStr.deleteCharAt(dishCountsStr.length()-1);
         return true;
+    }
+
+    /**
+     * 根据menu中的id字符串列表与count字符串列表生成对应的菜品列表
+     * @param menuOfTheDay
+     * @return
+     */
+    private List<Dish> getDishesOfMenu(MenuOfTheDay menuOfTheDay){
+        if (menuOfTheDay == null){
+            return null;
+        }
+        String[] dishIDsStrArray = menuOfTheDay.getDishesIds().split(",");
+        String[] dishCountsStrArray = menuOfTheDay.getDishesCounts().split(",");
+        Integer[] dishIDs = strArrayToIntArray(dishIDsStrArray);
+        Integer[] dishCoounts = strArrayToIntArray(dishCountsStrArray);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i=0; i<dishIDs.length; ++i){
+            map.put(dishIDs[i], dishCoounts[i]);
+        }
+        List<Dish> dishes = dishesMapper.getDishesByIDs(dishIDs);
+        for (int i=0; i<dishes.size(); ++i){
+            Dish dish = dishes.get(i);
+            dish.setCount(map.get(dish.getId()));
+        }
+        return dishes;
+    }
+
+    /**
+     * 将字符串数组转化为数字数组
+     * @param strs
+     * @return
+     */
+    private Integer[] strArrayToIntArray(String[] strs){
+        if (strs == null || strs.length < 1){
+            return null;
+        }
+        Integer[] ints = new Integer[strs.length];
+        for (int i=0; i<ints.length; ++i) {
+            ints[i] = Integer.valueOf(strs[i]);
+        }
+        return ints;
     }
 }

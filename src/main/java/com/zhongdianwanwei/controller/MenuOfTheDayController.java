@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @date : 2020-06-30 14:31
  **/
 @RestController
-@RequestMapping(path = "/MenuOfTheDay")
+@RequestMapping(value = "/MenuOfTheDay")
 public class MenuOfTheDayController {
 
     @Autowired
@@ -24,13 +24,15 @@ public class MenuOfTheDayController {
 
     /**
      * 创建一个菜单
-     * @param adaptDateTimeStr 希望菜单生效的时间
+     * @param adaptDateTimeStr 菜单生效的时间
      * @param dishIds 希望菜单包含的菜品ID列表
+     * @param dishCounts 菜单包含的菜品数量列表
      * @return
      */
     @PostMapping
     public Boolean createDailyMenu(@RequestParam("adaptTime") String adaptDateTimeStr,
-                                   @RequestParam("ids")Integer[] dishIds){
+                                   @RequestParam("ids")Integer[] dishIds,
+                                   @RequestParam("counts")Integer[] dishCounts){
 
         if (!checkDateTime(adaptDateTimeStr)){
             return false;
@@ -38,12 +40,18 @@ public class MenuOfTheDayController {
         if (dishIds == null || dishIds.length < 0){
             return false;
         }
+        if (dishCounts == null || dishCounts.length < 0){
+            return false;
+        }
+        if (dishCounts.length != dishIds.length){
+            return false;
+        }
         adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
-        return menuOfTheDayService.saveDailyMenu(adaptDateTimeStr, dishIds);
+        return menuOfTheDayService.saveDailyMenu(adaptDateTimeStr, dishIds, dishCounts);
     }
 
     /**
-     * 根据Id或者生效日期查找菜单
+     * 根据ID查找菜单
      * @param id 菜单id
      * @return
      */
@@ -68,7 +76,7 @@ public class MenuOfTheDayController {
      * @param pageSize
      * @return
      */
-    @GetMapping(path = "/{pageSize}/{pageIndex}")
+    @GetMapping(value = "/list/{pageSize}/{pageIndex}")
     public List<MenuOfTheDay> listMenu(@PathVariable(name = "pageIndex") Integer pageIndex,
                                        @PathVariable(name = "pageSize") Integer pageSize){
         if ((pageIndex < 1 || pageSize < 0)) {
@@ -78,30 +86,66 @@ public class MenuOfTheDayController {
     }
 
     /**
+     * 根据id删除一个菜单
+     * @param id 需要删除的菜单主键
+     * @return
+     */
+    @DeleteMapping(value = "/{id}")
+    public Boolean removeMenu(@PathVariable(name = "id") Integer id){
+        if (id == null) {
+            return false;
+        }
+        return menuOfTheDayService.removeMenuByID(id);
+    }
+
+    /**
+     * 根据ID数组批量删除菜单
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+    public Boolean removeMenus(Integer[] ids){
+        if (ids == null || ids.length < 1) {
+            return false;
+        }
+        return menuOfTheDayService.removeMenusByIDs(ids);
+    }
+
+    /**
      * 修改一个菜单
      * @param id
      * @param adaptDateTimeStr 希望菜单生效的时间
      * @param dishIds 希望菜单包含的菜品id列表
      * @return
      */
-    @PatchMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
     public Boolean updateDailyMenu(@PathVariable(name = "id") Integer id,
-                                   @RequestParam("adaptTime") String adaptDateTimeStr,
-                                   @RequestParam("ids")Integer[] dishIds){
-
-        if (!checkDateTime(adaptDateTimeStr)){
-            return false;
-        }
-        if (dishIds == null || dishIds.length < 0){
-            return false;
-        }
+                                   @RequestParam(value = "adaptTime") String adaptDateTimeStr,
+                                   @RequestParam(value = "ids")Integer[] dishIds,
+                                   @RequestParam(value = "counts")Integer[] dishCounts){
+        System.out.println(id);
         if (id == null) {
             return false;
         }
+        if (!checkDateTime(adaptDateTimeStr)){
+            return false;
+        }
+        if (dishIds == null || dishIds.length < 1){
+            return false;
+        }
+        if (dishCounts == null || dishCounts.length < 1){
+            return false;
+        }
         adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
-        return menuOfTheDayService.updateDailyMenu(id, adaptDateTimeStr, dishIds);
+        System.out.println(adaptDateTimeStr);
+        return menuOfTheDayService.updateDailyMenu(id, adaptDateTimeStr, dishIds, dishCounts);
     }
 
+    /**
+     * 检查日期字符串是否合法
+     * @param adaptDateTimeStr
+     * @return
+     */
     private Boolean checkDateTime(String adaptDateTimeStr){
         if (adaptDateTimeStr == null
                 || (adaptDateTimeStr = adaptDateTimeStr.trim()).length() != "yyyy-MM-dd hh:mm:dd".length()){

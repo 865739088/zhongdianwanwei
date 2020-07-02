@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 @Component("admincountservice")
 public class AdminCountServicerImpl implements IAdminCountService {
@@ -15,19 +15,31 @@ public class AdminCountServicerImpl implements IAdminCountService {
     private AdminCountMapper adminCountMapper;
 
     @Override
-    public List<AdminCount> getTodayAdminCount(int page, int counts) {
-        return adminCountMapper.getTodayAdminCount(page, counts);
+    public AdminCount getAdminCountById(int id) {
+        return adminCountMapper.getAdminCountById(id);
     }
 
     @Override
-    public List<AdminCount> getAdminCount(Date queryDay, int page, int counts) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD hh-mm-ss");
-        String format = simpleDateFormat.format(queryDay);
-        return adminCountMapper.getAdminCount(format.substring(0,9),page,counts);
+    public List<AdminCount> getTodayAdminCount(int page, int counts) {
+        List<AdminCount> todayAdminCount = adminCountMapper.getTodayAdminCount(page, counts);
+        return todayAdminCount;
+    }
+
+    @Override
+    public List<AdminCount> getAdminCount(String queryDay, int page, int counts) {
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD hh-mm-ss");
+//        String format = simpleDateFormat.format(queryDay);
+        String date = queryDay.substring(0, 10);
+        return adminCountMapper.getAdminCount(date,page,counts);
     }
 
     @Override
     public int insertAdminCount(AdminCount adminCount) {
-        return adminCountMapper.insertAdminCount(adminCount);
+        return adminCountMapper.insertAdminCount(adminCount.getUser_id(),adminCount.getIf_overTime_type(),adminCount.getOverTime_type(),adminCount.getCreate_time(),adminCount.getIf_agree_overTime());
+    }
+
+    @Override
+    public int updateAdminCountById(AdminCount adminCount) {
+        return adminCountMapper.updateAdminCountById(adminCount.getUser_id(),adminCount.getIf_overTime_type(),adminCount.getOverTime_type(),adminCount.getCreate_time(),adminCount.getIf_agree_overTime());
     }
 }

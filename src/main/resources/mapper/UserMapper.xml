@@ -10,4 +10,7 @@
     <select id="getUserByUserName" resultType="com.zhongdianwanwei.model.User" >
         select * from `user` where username = #{userName}
     </select>
+    <select id="getUserByGroupId" resultType="com.zhongdianwanwei.model.User" >
+        select * from `user` where group_id= #{groupId}
+    </select>
 </mapper>

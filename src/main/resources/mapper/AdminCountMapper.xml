@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongdianwanwei.dao.AdminCountMapper">
+    <select id="getAdminCountById" resultType="com.zhongdianwanwei.model.AdminCount">
+        select * from
+        adminCount
+        where user_id = #{id};
+    </select>
+    <select id="getTodayAdminCount" resultType="com.zhongdianwanwei.model.AdminCount">
+        select * from
+        adminCount
+        where to_days(create_time) = to_days(now()) limit #{page},#{counts};
+    </select>
+    <select id="getAdminCount" resultType="com.zhongdianwanwei.model.AdminCount">
+        select * from
+        adminCount
+        where ( datediff ( create_time , #{queryDay} ) = 0 ) limit #{page},#{counts};
+    </select>
+    <insert id="insertAdminCount" parameterType="com.zhongdianwanwei.model.AdminCount">
+        insert into adminCount (user_id,if_overTime_type,overTime_type,create_time,if_agree_overTime) values (#{user_id},#{if_overTime_type},#{overTime_type},now(),#{if_agree_overTime})
+    </insert>
+    <update id="updateAdminCountById" parameterType="com.zhongdianwanwei.model.AdminCount">
+        update adminCount
+        <set>
+        <if test="user_id != 0">
+            `user_id`=#{user_id},
+        </if>
+        <if test="if_overTime_type != 0">
+            `if_overTime_type`=#{if_overTime_type},
+        </if>
+        <if test="overTime_type != 0">
+            `overTime_type`=#{overTime_type},
+        </if>
+        <if test="create_time != null">
+            `create_time`=#{create_time},
+        </if>
+        <if test="if_agree_overTime != 0">
+            `if_agree_overTime`=#{if_agree_overTime}
+        </if>
+        </set>
+        where user_id=#{user_id};
+    </update>
+</mapper>

@@ -11,11 +11,12 @@ import java.util.List;
  **/
 public class MenuOfTheDay {
 
-    private Integer id;              //对应表主键
-    private List<Dish> dishes;     //Java中的菜单列表
-    private Timestamp createTime;    //菜单创建时间
-    private Timestamp adaptTime;     //菜单生效时间
-    private String dishesIds;       //对应表中的菜单列表
+    private Integer id;              // 对应表主键
+    private List<Dish> dishes;       // Java中的菜单列表
+    private Timestamp createTime;    // 菜单创建时间
+    private Timestamp adaptTime;     // 菜单生效时间
+    private String dishesIds;        // 对应表中的菜品列表
+    private String dishesCounts;     // 菜品数量列表
 
     public Integer getId() {
         return id;
@@ -57,14 +58,29 @@ public class MenuOfTheDay {
         this.dishesIds = dishesIds;
     }
 
+    public String getDishesCounts() {
+        return dishesCounts;
+    }
+
+    public void setDishesCounts(String dishesCounts) {
+        this.dishesCounts = dishesCounts;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("MenuOfTheDay{");
-        sb.append("id=").append(id);
-        sb.append(", dishes=").append(dishes);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", adaptTime=").append(adaptTime);
-        sb.append(", dishes_ids='").append(dishesIds).append('\'');
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"id\":")
+                .append(id);
+        sb.append(",\"dishes\":")
+                .append(dishes);
+        sb.append(",\"createTime\":\"")
+                .append(createTime).append('\"');
+        sb.append(",\"adaptTime\":\"")
+                .append(adaptTime).append('\"');
+        sb.append(",\"dishesIds\":\"")
+                .append(dishesIds).append('\"');
+        sb.append(",\"dishesCounts\":\"")
+                .append(dishesCounts).append('\"');
         sb.append('}');
         return sb.toString();
     }

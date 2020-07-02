@@ -2,6 +2,7 @@ package com.zhongdianwanwei.service;
 
 
 import com.zhongdianwanwei.model.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,4 +14,11 @@ public interface IUserService {
 
     //根据用户账号查询用户信息
     User getUserByUserName(String userName);
+
+    /**
+     * 根据组号查询组员
+     * @param groupId
+     * @return
+     */
+    List<User> getUserByGroupId(int groupId);
 }
