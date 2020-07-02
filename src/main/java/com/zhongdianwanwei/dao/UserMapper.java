@@ -24,4 +24,7 @@ public interface UserMapper {
      * @return
      */
     List<User> getUserByGroupId(@Param("groupId") int groupId);
+
+    //根据用户账号查询用户信息
+    User getUserById(@Param("id") int id);
 }

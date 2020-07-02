@@ -39,6 +39,7 @@
         </tr>
         </thead>
         <tbody>
+
         <tr ng-repeat="dish in dishes">
             <td style="width: 25px;"><input type="checkbox" ng-model="dish.selected" ng-change="choose(dish)"></td>
             <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.id"></td>

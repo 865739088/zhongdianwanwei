@@ -7,7 +7,11 @@ package com.zhongdianwanwei.controller;
  */
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhongdianwanwei.dao.DishesMapper;
+import com.zhongdianwanwei.dao.UserMapper;
 import com.zhongdianwanwei.model.AdminCount;
+import com.zhongdianwanwei.model.AdminCountVo;
+import com.zhongdianwanwei.model.Dish;
 import com.zhongdianwanwei.model.User;
 import com.zhongdianwanwei.service.IAdminCountService;
 import com.zhongdianwanwei.service.IUserService;
@@ -31,6 +35,10 @@ public class AdminCountCtroller {
     private IAdminCountService adminCountService;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private DishesMapper dishesMapper;
 
 /**
      * 查询今日数据
@@ -41,13 +49,35 @@ public class AdminCountCtroller {
     @RequestMapping(value = "/getTodayAdminCount",method = RequestMethod.GET)
     @ResponseBody
 
-    public  List<AdminCount> getTodayAdminCount(@RequestParam int page){
-        List<AdminCount> result=null;
-        result = adminCountService.getTodayAdminCount(page, 5);
+    public  List<AdminCountVo> getTodayAdminCount(@RequestParam int page){
+        List<AdminCountVo> resultVo = new ArrayList<>();
+        List<AdminCount> results=null;
+        results = adminCountService.getTodayAdminCount(page, 5);
+        for (AdminCount result:results){
+            AdminCountVo adminCountVo = new AdminCountVo();
+            User user = userMapper.getUserById(result.getUser_id());
+            if(user!=null) {
+                adminCountVo.setId(user.getId());
+                adminCountVo.setUserName(user.getUsername());
+                adminCountVo.setName(user.getName());
+                adminCountVo.setIf_agree_overTime(result.getIf_agree_overTime());
+                adminCountVo.setOverTime_type(result.getOverTime_type());
+                adminCountVo.setUser_id(result.getUser_id());
+                adminCountVo.setIf_overTime_type(result.getIf_overTime_type());
+                adminCountVo.setCreate_time(result.getCreate_time());
+                adminCountVo.setIf_overTime_lable(result.getIf_overTime_type() == 0 ? "不加班" : "加班");
+                if (adminCountVo.getOverTime_type() == 1) {
+                    Dish dishes = dishesMapper.getDishes(adminCountVo.getOverTime_type());
+                    adminCountVo.setOverTime_lable(dishes.getName());
+                } else
+                    adminCountVo.setOverTime_lable("未加班");
+                resultVo.add(adminCountVo);
+            }
+        }
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("todayList",result);
+        jsonObject.put("todayList",resultVo);
         ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
-        return result;
+        return resultVo;
     }
 
 
