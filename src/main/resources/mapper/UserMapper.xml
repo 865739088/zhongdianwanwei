@@ -5,24 +5,12 @@
 
 <mapper namespace="com.zhongdianwanwei.dao.UserMapper">
     <select id="getUsers" resultType="com.zhongdianwanwei.model.User">
-        select * from `user`
-        where 1=1
-        <if test="userName != null and userName!=''">
-            and `userName` = #{userName}
-        </if>
-        <if test="userName != null and name!=''">
-            and `name` like concat('%',#{name},'%')
-        </if>
+        select * from `user`;
     </select>
     <select id="getUserByUserName" resultType="com.zhongdianwanwei.model.User" >
         select * from `user` where username = #{userName}
     </select>
     <select id="getUserByGroupId" resultType="com.zhongdianwanwei.model.User" >
         select * from `user` where group_id= #{groupId}
-    </select>
-    
-    <select id="getDictValue" resultType="com.zhongdianwanwei.model.SysDict">
-        select * from sys_dict
-        where type = #{dictType}
     </select>
 </mapper>

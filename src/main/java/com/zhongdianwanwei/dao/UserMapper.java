@@ -1,6 +1,5 @@
 package com.zhongdianwanwei.dao;
 
-import com.zhongdianwanwei.model.SysDict;
 import com.zhongdianwanwei.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +13,7 @@ import java.util.List;
 public interface UserMapper {
 
     //查询全部用户信息
-    List<User> getUsers(@Param("userName") String userName,@Param("name") String name);
+    List<User> getUsers();
 
     //根据用户账号查询用户信息
     User getUserByUserName(@Param("userName") String userName);
@@ -25,11 +24,4 @@ public interface UserMapper {
      * @return
      */
     List<User> getUserByGroupId(@Param("groupId") int groupId);
-
-    /**
-     * 根据字典类型获取字典映射
-     * @param dictType
-     * @return
-     */
-    List<SysDict> getDictValue(@Param("dictType") String dictType);
 }
