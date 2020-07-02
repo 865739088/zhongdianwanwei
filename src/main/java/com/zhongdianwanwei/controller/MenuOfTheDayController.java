@@ -32,21 +32,21 @@ public class MenuOfTheDayController {
      * @return
      */
     @PostMapping
-    public String createDailyMenu(@RequestParam("adaptTime") String adaptDateTimeStr,
+    public ResponseMessage createDailyMenu(@RequestParam("adaptTime") String adaptDateTimeStr,
                                    @RequestParam("ids")Integer[] dishIds,
                                    @RequestParam("counts")Integer[] dishCounts){
 
         if (!checkDateTime(adaptDateTimeStr)){
-            return "日期不合法";
+            return ResponseMessage.newErrorInstance("日期不合法");
         }
         if (dishIds == null || dishIds.length < 0){
-            return "ids数组为空";
+            return ResponseMessage.newErrorInstance("ids数组为空");
         }
         if (dishCounts == null || dishCounts.length < 0){
-            return "counts数组为空";
+            return ResponseMessage.newErrorInstance("counts数组为空");
         }
         adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
-        return menuOfTheDayService.saveDailyMenu(adaptDateTimeStr, dishIds, dishCounts).toString();
+        return menuOfTheDayService.saveDailyMenu(adaptDateTimeStr, dishIds, dishCounts);
     }
 
     /**
