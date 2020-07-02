@@ -3,10 +3,13 @@ package com.zhongdianwanwei.controller;
 *  用于处理管理员统计请求controller
 *  author：金鑫
  */
+import com.alibaba.fastjson.JSONObject;
 import com.zhongdianwanwei.model.AdminCount;
 import com.zhongdianwanwei.model.User;
 import com.zhongdianwanwei.service.IAdminCountService;
 import com.zhongdianwanwei.service.IUserService;
+import com.zhongdianwanwei.util.ResponseUtil;
+import com.zhongdianwanwei.util.ServletUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,11 +34,15 @@ public class AdminCountCtroller {
      * @param page
      * @return
      */
-    @RequestMapping(value = "/getTodayAdminCount",method = RequestMethod.GET)
+    @RequestMapping(value = "/getTodayAdminCount",method = RequestMethod.POST)
     @ResponseBody
+
     public  List<AdminCount> getTodayAdminCount(@RequestParam int page){
         List<AdminCount> result=null;
         result = adminCountService.getTodayAdminCount(page, 5);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("todayList",result);
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
         return result;
     }
 
@@ -47,13 +54,16 @@ public class AdminCountCtroller {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getAdminCount",method = RequestMethod.GET)
+    @RequestMapping(value = "/getAdminCount",method = RequestMethod.POST)
     public  List<AdminCount> getAdminCount(@RequestParam Date date, @RequestParam int page, @RequestParam int counts){
         List<AdminCount> result=null;
         result = adminCountService.getAdminCount(date.toString(),page, counts);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("dayList",result);
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
         return result;
     }
-    @RequestMapping(value = "/toLogin",method = RequestMethod.GET)
+    @RequestMapping(value = "/toLogin",method = RequestMethod.POST)
     public String toLogin(){
         return "login";
     }
@@ -61,10 +71,11 @@ public class AdminCountCtroller {
     /**
      * 用户提交加班申请
      */
-    @RequestMapping(value = "/SubmitOverTime")
+    @RequestMapping(value = "/SubmitOverTime",method = RequestMethod.POST)
     @ResponseBody
     public String userSubmitOverTime(@RequestParam int userId){
         AdminCount adminCount = new AdminCount();
+        adminCount.setId(0);
         adminCount.setUser_id(userId);
         adminCount.setCreate_time(new Date());
         adminCount.setIf_overTime_type(1);
@@ -79,7 +90,7 @@ public class AdminCountCtroller {
     /**
      * 组长同意加班申请
      */
-    @RequestMapping(value = "/leaderAgreeOverTime")
+    @RequestMapping(value = "/leaderAgreeOverTime",method = RequestMethod.POST)
     @ResponseBody
     public String leaderAgreeOverTime(@RequestParam int userId){
         AdminCount adminCount = new AdminCount();
@@ -97,7 +108,7 @@ public class AdminCountCtroller {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/userSubmitChoose")
+    @RequestMapping(value = "/userSubmitChoose",method = RequestMethod.POST)
     @ResponseBody
     public String userSubmitChoose(@RequestParam int userId,@RequestParam int choose){
         AdminCount adminCount = new AdminCount();
@@ -116,7 +127,7 @@ public class AdminCountCtroller {
      * @param groupId
      * @return
      */
-    @RequestMapping(value = "/leaderErgodicRequests")
+    @RequestMapping(value = "/leaderErgodicRequests",method = RequestMethod.POST)
     @ResponseBody
     public  List<AdminCount> leaderErgodicRequests(@RequestParam int userId,@RequestParam int groupId){
         List<User> users = userService.getUserByGroupId(groupId);
@@ -126,6 +137,9 @@ public class AdminCountCtroller {
             AdminCount adminCountById = adminCountService.getAdminCountById(id);
             list.add(adminCountById);
         }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("leaderList",list);
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
         return list;
     }
 

@@ -35,11 +35,11 @@ public class AdminCountServicerImpl implements IAdminCountService {
 
     @Override
     public int insertAdminCount(AdminCount adminCount) {
-        return adminCountMapper.insertAdminCount(adminCount);
+        return adminCountMapper.insertAdminCount(adminCount.getUser_id(),adminCount.getIf_overTime_type(),adminCount.getOverTime_type(),adminCount.getCreate_time(),adminCount.getIf_agree_overTime());
     }
 
     @Override
     public int updateAdminCountById(AdminCount adminCount) {
-        return adminCountMapper.updateAdminCountById(adminCount);
+        return adminCountMapper.updateAdminCountById(adminCount.getUser_id(),adminCount.getIf_overTime_type(),adminCount.getOverTime_type(),adminCount.getCreate_time(),adminCount.getIf_agree_overTime());
     }
 }

@@ -4,6 +4,7 @@ import com.zhongdianwanwei.model.AdminCount;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 @Component
 @Mapper
@@ -23,13 +24,13 @@ public interface AdminCountMapper {
     /**
      * 插入数据
      */
-    int insertAdminCount(@Param("adminCount") AdminCount adminCount);
+    int insertAdminCount(@Param("user_id")int user_id, @Param("if_overTime_type")int if_overTime_type, @Param("overTime_type")int overTime_type, @Param("create_time") Date create_time, @Param("if_agree_overTime")int if_agree_overTime);
 
     /**
      * 修改数据
-     * @param adminCount
+     * @param
      * @return
      */
-    int updateAdminCountById(@Param("adminCount")AdminCount adminCount);
+    int updateAdminCountById(@Param("user_id")int user_id,@Param("if_overTime_type")int if_overTime_type,@Param("overTime_type")int overTime_type,@Param("create_time")Date create_time,@Param("if_agree_overTime")int if_agree_overTime);
 
 }
