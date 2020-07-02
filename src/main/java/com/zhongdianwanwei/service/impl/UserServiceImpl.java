@@ -1,6 +1,7 @@
 package com.zhongdianwanwei.service.impl;
 
 import com.zhongdianwanwei.dao.UserMapper;
+import com.zhongdianwanwei.model.SysDict;
 import com.zhongdianwanwei.model.User;
 import com.zhongdianwanwei.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
 
     @Override
-    public List<User> getUsers() {
-        return userMapper.getUsers();
+    public List<User> getUsers(String userName,String name) {
+        return userMapper.getUsers(userName,name);
     }
 
     @Override
@@ -28,5 +29,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<User> getUserByGroupId(int groupId) {
         return userMapper.getUserByGroupId(groupId);
+    }
+
+    @Override
+    public List<SysDict> getDictValue(String dictType) {
+
+        return userMapper.getDictValue(dictType);
     }
 }

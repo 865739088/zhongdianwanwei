@@ -14,6 +14,12 @@ public interface DishesMapper {
     Dish getDishes(Integer id);
 
     /**
+     * 根据菜品名称查找菜品信息
+     * @param name
+     * @return
+     */
+    List<Dish> getDishes(String name);
+    /**
      * 根据id列表查找菜品信息
      * @param IDs
      * @return

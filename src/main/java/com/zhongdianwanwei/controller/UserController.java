@@ -2,10 +2,12 @@ package com.zhongdianwanwei.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhongdianwanwei.model.SysDict;
 import com.zhongdianwanwei.model.User;
 import com.zhongdianwanwei.service.IUserService;
 import com.zhongdianwanwei.util.ResponseUtil;
 import com.zhongdianwanwei.util.ServletUtil;
+import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +33,10 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/getusers")
-    public void getUsers(@RequestParam String userName, @RequestParam String name){
-        List<User> users=userService.getUsers();
+    public void getUsers(@RequestParam String username, @RequestParam String name){
+
+        System.out.println(username+"========="+name);
+        List<User> users=userService.getUsers(username,name);
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("users",users);
         ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
@@ -76,5 +80,19 @@ public class UserController {
         jsonObject.put("msg",msg);
         //返回前端json格式数据
         ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/getDictValue")
+    public void getDictValue(@RequestParam String dictType){
+
+
+        System.out.println(dictType);
+        JSONObject jsonObject=new JSONObject();
+        List<SysDict> dicts=userService.getDictValue(dictType);
+        jsonObject.put("dicts",dicts);
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
+
     }
 }

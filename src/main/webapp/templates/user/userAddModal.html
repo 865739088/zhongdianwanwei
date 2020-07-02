@@ -15,6 +15,7 @@
         <input type="password" ng-model="user.password">
         <span class="tip" ng-bind="passwordTip"></span>
     </div>
+
     <div class="add-group">
         <span class="text">确认密码</span>
         <input type="password" ng-model="user.confirm">
@@ -24,6 +25,21 @@
         <span class="text">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
         <input type="text" ng-model="user.name">
         <span class="tip" ng-bind="nameTip"></span>
+    </div>
+
+    <div class="add-group">
+        <span class="text">用户类型</span>
+        <select ng-model="userType" style="margin-right: 10px">
+            <option ng-repeat="type in userTypes" ng-bind="type.dictLabel" value="{{type.dictValue}}"></option>
+        </select>
+        <span class="tip" ng-bind="userTypeTip"></span>
+    </div>
+    <div class="add-group">
+        <span class="text">用户所属组</span>
+        <select ng-model="groupId" style="margin-right: 10px">
+            <option ng-repeat="group in groups" ng-bind="group.dictLabel" value="{{group.dictValue}}"></option>
+        </select>
+        <span class="tip" ng-bind="groupIdTip"></span>
     </div>
 </div>
 <div class="modal-footer">

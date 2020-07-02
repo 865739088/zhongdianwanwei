@@ -1,15 +1,12 @@
 <div class="condition-box">
-
-    <span>用户名</span><input type="text" ng-model="cond.username">
-
-    <span>姓名</span><input type="text" ng-model="cond.name">
+    <span>菜品名</span><input type="text" ng-model="cond.name">
     <a class="btn btn-sm btn-default"  ng-click="search(true)">
         <i class="fa fa-search"></i>
         查询
     </a>
     <a class="btn btn-sm btn-default"  ng-click="showAddModal()">
         <i class="fa fa-user-plus"></i>
-        增加
+        添加
     </a>
     <a class="btn btn-sm btn-default"  ng-click="deleteUsers()">
         <i class="fa fa-trash-o"></i>
@@ -38,21 +35,23 @@
         <thead>
         <tr>
             <th style="width: 25px;"><input type="checkbox" ng-model="selectedAll" ng-change="chooseAll()"></th>
-            <th style="width: calc((100% - 25px ) * 25%);">登录账号</th>
-            <th style="width: calc((100% - 25px ) * 25%);">姓名</th>
-            <th style="width: calc((100% - 25px ) * 25%);;">登录密码</th>
-            <th style="width: calc((100% - 25px ) * 25%);;">操作</th>
+            <th style="width: calc((100% - 25px ) * 20%);">菜品编号</th>
+            <th style="width: calc((100% - 25px ) * 20%);">菜品名</th>
+            <th style="width: calc((100% - 25px ) * 20%);">菜品价格</th>
+            <th style="width: calc((100% - 25px ) * 20%);">适用时间</th>
+            <th style="width: calc((100% - 25px ) * 20%);">操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="user in users">
-            <td style="width: 25px;"><input type="checkbox" ng-model="user.selected" ng-change="choose(user)"></td>
-            <td style="width: calc((100% - 25px ) * 25%);" ng-bind="user.username"></td>
-            <td style="width: calc((100% - 25px ) * 25%);" ng-bind="user.name"></td>
-            <td style="width: calc((100% - 25px ) * 25%);" ng-bind="user.password"></td>
-            <td style="width: calc((100% - 25px ) * 25%);">
-                <a ng-click="showUpdateModal(user)">修改</a>
-                <a ng-click="deleteUser(user.username)">删除</a>
+        <tr ng-repeat="dish in dishes">
+            <td style="width: 25px;"><input type="checkbox" ng-model="dish.selected" ng-change="choose(dish)"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.id"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.name"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.price"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.adaptTime"></td>
+            <td style="width: calc((100% - 25px ) * 20%);">
+                <a ng-click="showUpdateModal(dish)">修改</a>
+                <a ng-click="deleteDish(dish.id)">删除</a>
             </td>
         </tr>
         </tbody>

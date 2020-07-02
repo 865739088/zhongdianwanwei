@@ -4,7 +4,16 @@
 
 <mapper namespace="com.zhongdianwanwei.dao.DishesMapper">
 
-    <select id="getDishes" parameterType="Integer" resultType="com.zhongdianwanwei.model.Dish">
+    <select id="getDishes" resultType="com.zhongdianwanwei.model.Dish">
+        select
+            name,
+            price,
+            img,
+            mark
+        from dishes  where `name` like concat('%',#{name},'%')
+    </select>
+
+    <select id="getDish" parameterType="Integer" resultType="com.zhongdianwanwei.model.Dish">
         select
             name,
             price,
