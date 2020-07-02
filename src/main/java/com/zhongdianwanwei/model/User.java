@@ -14,9 +14,9 @@ public class User {
     //用户昵称
     private String name;
     //用户类型
-    private int UserType;
+    private int user_type;
     //用户组
-    private int GroupId;
+    private int group_id;
 
     public int getId() {
         return id;
@@ -50,20 +50,20 @@ public class User {
         this.name = name;
     }
 
-    public int getUserType() {
-        return UserType;
+    public int getUser_type() {
+        return user_type;
     }
 
-    public void setUserType(int userType) {
-        UserType = userType;
+    public void setUser_type(int user_type) {
+        this.user_type = user_type;
     }
 
-    public int getGroupId() {
-        return GroupId;
+    public int getGroup_id() {
+        return group_id;
     }
 
-    public void setGroupId(int groupId) {
-        GroupId = groupId;
+    public void setGroup_id(int group_id) {
+        this.group_id = group_id;
     }
 
     @Override
@@ -73,8 +73,8 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
-                ", UserType=" + UserType +
-                ", GroupId=" + GroupId +
+                ", UserType=" + user_type +
+                ", GroupId=" + group_id +
                 '}';
     }
 }

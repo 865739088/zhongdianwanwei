@@ -22,7 +22,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         controller: 'adminCountCtrl'
     }).state('manage.audit', {
         url: '/audit',
-        templateUrl: 'templates/audit/audit.html',
+        templateUrl: 'templates/leader/audit.html',
         controller: 'auditCtrl'
     }).state('manage.overTimeApplication', {
         url: '/overTimeApplication',
@@ -388,6 +388,7 @@ app.controller('adminCountCtrl', function ($scope, $http,$uibModal, $state) {
         });
     }
 
+
     //添加用户信息
     $scope.showAddModal = function () {
         let parent = $scope;
@@ -491,3 +492,21 @@ app.controller('adminCountCtrl', function ($scope, $http,$uibModal, $state) {
     }
 
 });
+
+app.controller('auditCtrl', function ($scope, $http,$uibModal, $state) {
+
+    //查询组内成员信息
+    $scope.searchMenbers = function () {
+
+        $http({
+            url: 'leaderErgodicRequests',
+            method: 'get',
+            params: {
+
+            }
+        }).then(function (resp) {
+            $scope.members=resp.data.leaderList;
+        });
+    }
+});
+

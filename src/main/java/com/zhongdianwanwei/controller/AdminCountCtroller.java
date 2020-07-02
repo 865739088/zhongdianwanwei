@@ -9,10 +9,7 @@ package com.zhongdianwanwei.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zhongdianwanwei.dao.DishesMapper;
 import com.zhongdianwanwei.dao.UserMapper;
-import com.zhongdianwanwei.model.AdminCount;
-import com.zhongdianwanwei.model.AdminCountVo;
-import com.zhongdianwanwei.model.Dish;
-import com.zhongdianwanwei.model.User;
+import com.zhongdianwanwei.model.*;
 import com.zhongdianwanwei.service.IAdminCountService;
 import com.zhongdianwanwei.service.IUserService;
 import com.zhongdianwanwei.util.ResponseUtil;
@@ -23,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -167,20 +166,32 @@ public class AdminCountCtroller {
 
 /**
      * 组长查看当前组内人员申请加班情况
-     * @param userId
-     * @param groupId
+     * @param
      * @return
      */
 
     @RequestMapping(value = "/leaderErgodicRequests",method = RequestMethod.GET)
     @ResponseBody
-    public  List<AdminCount> leaderErgodicRequests(@RequestParam int userId,@RequestParam int groupId){
-        List<User> users = userService.getUserByGroupId(groupId);
-        List<AdminCount> list= new ArrayList<>();
-        for (User user:users){
-            int id = user.getId();
-            AdminCount adminCountById = adminCountService.getAdminCountById(id);
-            list.add(adminCountById);
+    public  List<MenbersVo> leaderErgodicRequests(){
+        HttpServletRequest request=ServletUtil.getRequest();
+        HttpSession session=request.getSession();
+        String userName = (String) session.getAttribute("userName");
+        User userByUserName = userService.getUserByUserName(userName);
+        List<MenbersVo> list= new ArrayList<>();
+        if (userByUserName!=null) {
+            if (userByUserName.getUser_type()==1) {
+                List<User> users = userService.getUserByGroupId(userByUserName.getGroup_id());
+                for (User user : users) {
+                    int id = user.getId();
+                    AdminCount adminCountById = adminCountService.getAdminCountById(id);
+                    MenbersVo menbersVo = new MenbersVo();
+                    menbersVo.setGroupId(user.getGroup_id());
+                    menbersVo.setName(user.getName());
+                    menbersVo.setUser_id(user.getId());
+                    menbersVo.setCondition(adminCountById.getIf_agree_overTime()==0?"未同意":"已同意");
+                    list.add(menbersVo);
+                }
+            }
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("leaderList",list);

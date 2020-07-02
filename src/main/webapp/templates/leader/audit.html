@@ -1,6 +1,6 @@
 <div class="condition-box">
-    <span>菜品名</span><input type="text" ng-model="cond.name">
-    <a class="btn btn-sm btn-default"  ng-click="search(true)">
+    <span>组长名</span><input type="text" ng-model="cond.name">
+    <a class="btn btn-sm btn-default"  ng-click="searchMenbers(true)">
         <i class="fa fa-search"></i>
         查询
     </a>
@@ -31,20 +31,21 @@
         <thead>
         <tr>
             <th style="width: 25px;"><input type="checkbox" ng-model="selectedAll" ng-change="chooseAll()"></th>
-            <th style="width: calc((100% - 25px ) * 20%);">菜品编号</th>
-            <th style="width: calc((100% - 25px ) * 20%);">菜品名</th>
-            <th style="width: calc((100% - 25px ) * 20%);">菜品价格</th>
-            <th style="width: calc((100% - 25px ) * 20%);">菜品重量</th>
+            <th style="width: calc((100% - 25px ) * 20%);">小组编号</th>
+            <th style="width: calc((100% - 25px ) * 20%);">组员编号</th>
+            <th style="width: calc((100% - 25px ) * 20%);">组员姓名</th>
+            <th style="width: calc((100% - 25px ) * 20%);">事务</th>
             <th style="width: calc((100% - 25px ) * 20%);">操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="dish in dishes">
-            <td style="width: 25px;"><input type="checkbox" ng-model="dish.selected" ng-change="choose(dish)"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.id"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.name"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.price"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.mark"></td>
+        <tr ng-repeat="member in members">
+            <td style="width: 25px;"><input type="checkbox" ng-model="member.selected" ng-change="choose(dish)"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="member.groupId"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="member.user_id"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="member.name"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="member.price">组员提交加班申请</td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="member.condition"></td>
             <td style="width: calc((100% - 25px ) * 20%);">
                 <a ng-click="showUpdateModal(dish)">修改</a>
                 <a ng-click="deleteDish(dish.id)">删除</a>
