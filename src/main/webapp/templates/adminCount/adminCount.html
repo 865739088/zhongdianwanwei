@@ -51,12 +51,12 @@
         <tr ng-repeat="count in counts">
             <td style="width: 25px;"><input type="checkbox" ng-model="count.selected" ng-change="choose(count)"></td>
             <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.id"></td>
-            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.userId"></td>
+            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.userName"></td>
             <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.name"></td>
-            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.ifOverTimeLabel"></td>
-            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.overTimeLabel "></td>
-            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.ifAgreeOverTimeLabel"></td>
-            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.createTime"></td>
+            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.if_overTime_lable"></td>
+            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.overTime_lable "></td>
+            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.if_agree_overTime"></td>
+            <td style="width: calc((100% - 25px ) * 10%);" ng-bind="count.create_time"></td>
             <td style="width: calc((100% - 25px ) * 30%);">
                 <a ng-click="showUpdateModal(user)">修改</a>
                 <a ng-click="deleteUser(user.username)">删除</a>

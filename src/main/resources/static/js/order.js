@@ -368,3 +368,126 @@ app.controller('dishesOfTheDayCtrl', function ($scope, $http,$uibModal, $state) 
     }
 
 });
+app.controller('adminCountCtrl', function ($scope, $http,$uibModal, $state) {
+
+    $scope.pageNumbers = [20, 30, 50,100];
+    $scope.displayCount = "20";//默认显示条数
+
+
+    //查询统计信息
+    $scope.search = function () {
+
+        $http({
+            url: 'getTodayAdminCount',
+            method: 'get',
+            params: {
+               page:0
+            }
+        }).then(function (resp) {
+            $scope.counts=resp.data.todayList;
+        });
+    }
+
+    //添加用户信息
+    $scope.showAddModal = function () {
+        let parent = $scope;
+        $uibModal.open({
+            size: 'md',
+            backdrop: 'static',
+            templateUrl: 'templates/user/userAddModal.html',
+            controller: function ($scope, $uibModalInstance) {
+                //获取用户类型
+                $http({
+                    url: 'getDictValue',
+                    method: 'get',
+                    params: {
+                        dictType:'user_type',
+                    }
+                }).then(function (resp) {
+                    $scope.userTypes=resp.data.dicts;
+                });
+
+                //获取用户所属组
+                $http({
+                    url: 'getDictValue',
+                    method: 'get',
+                    params: {
+                        dictType:'group_type',
+                    }
+                }).then(function (resp) {
+                    $scope.groups=resp.data.dicts;
+                });
+
+                $scope.user = {
+                    username: '',
+                    password: '',
+                    confirm: '',
+                    userType:'',
+                    groupId:'',
+                    name: ''
+                };
+                $scope.save = function(){
+                    if($scope.user.username == ''){
+                        $scope.usernameTip = '请输入用户名';
+                        return;
+                    } else {
+                        $scope.usernameTip = '';
+                    }
+                    if($scope.user.password == ''){
+                        $scope.passwordTip = '请输入密码';
+                        return;
+                    }else {
+                        $scope.passwordTip = '';
+                    }
+                    if($scope.user.confirm != $scope.user.password){
+                        $scope.confirmTip = '两次密码输入不一致';
+                        return;
+                    }else {
+                        $scope.confirmTip = '';
+                    }
+
+                    if($scope.user.name == ''){
+                        $scope.nameTip = '请输入姓名';
+                        return;
+                    }else {
+                        $scope.nameTip = '';
+                    }
+                    if($scope.user.userType == ''){
+                        $scope.userTypeTip = '请选择用户身份';
+                        return;
+                    }else {
+                        $scope.userTypeTip = '';
+                    }
+                    if($scope.user.groupId == ''){
+                        $scope.groupIdTip = '请选择用户所属组';
+                        return;
+                    }else {
+                        $scope.groupIdTip = '';
+                    }
+                    //删除无用属性
+                    delete $scope.user.confirm;
+                    $http({
+                        url: 'user',
+                        method: 'post',
+                        params: $scope.user
+                    }).then(function (resp) {
+                        if(resp.data == 1){//添加成功
+                            alert("添加成功");
+                            $scope.cancel();
+                            parent.search();
+                        } else if(resp.data == -1){
+                            alert("该用户名已被注册");
+                        } else {
+                            alert("添加失败");
+                        }
+                    })
+                }
+
+                $scope.cancel = function () {
+                    $uibModalInstance.close();
+                }
+            }
+        });
+    }
+
+});

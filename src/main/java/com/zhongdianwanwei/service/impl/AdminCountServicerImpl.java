@@ -1,4 +1,4 @@
-/*
+
 package com.zhongdianwanwei.service.impl;
 
 import com.zhongdianwanwei.dao.AdminCountMapper;
@@ -44,4 +44,3 @@ public class AdminCountServicerImpl implements IAdminCountService {
         return adminCountMapper.updateAdminCountById(adminCount.getUser_id(),adminCount.getIf_overTime_type(),adminCount.getOverTime_type(),adminCount.getCreate_time(),adminCount.getIf_agree_overTime());
     }
 }
-*/

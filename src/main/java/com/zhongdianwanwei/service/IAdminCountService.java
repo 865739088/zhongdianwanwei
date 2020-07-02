@@ -2,6 +2,7 @@ package com.zhongdianwanwei.service;
 
 import com.zhongdianwanwei.model.AdminCount;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.List;
