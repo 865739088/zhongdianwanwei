@@ -16,4 +16,6 @@
     <select id="getUserById" resultType="com.zhongdianwanwei.model.User" >
         select * from `user` where id = #{id}
     </select>
+
+
 </mapper>

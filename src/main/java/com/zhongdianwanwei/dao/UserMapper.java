@@ -27,4 +27,6 @@ public interface UserMapper {
 
     //根据用户账号查询用户信息
     User getUserById(@Param("id") int id);
+
+
 }
