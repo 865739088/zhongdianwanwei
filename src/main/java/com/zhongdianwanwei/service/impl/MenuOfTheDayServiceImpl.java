@@ -5,6 +5,7 @@ import com.zhongdianwanwei.dao.MenuOfTheDayMapper;
 import com.zhongdianwanwei.model.Dish;
 import com.zhongdianwanwei.model.MenuOfTheDay;
 import com.zhongdianwanwei.service.IMenuOfTheDayService;
+import com.zhongdianwanwei.util.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,70 +31,77 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
     private MenuOfTheDayMapper menuOfTheDayMapper;
 
     @Override
-    public Boolean saveDailyMenu(String adaptDateTimeStr, Integer[] dishIDs, Integer[] dishCounts) {
+    public ResponseMessage saveDailyMenu(String adaptDateTimeStr, Integer[] dishIDs, Integer[] dishCounts) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime adaptDateTime = LocalDateTime.parse(adaptDateTimeStr);
         MenuOfTheDay menuOfTheDay = new MenuOfTheDay();
         StringBuffer dishIdsStr = new StringBuffer();
         StringBuffer dishCountsStr = new StringBuffer();
         if (!checkAdaptDateTimeStr(now, adaptDateTime, null)) {
-            return false;
+            return ResponseMessage.newErrorInstance("已存在配置过的今日菜单");
         }
         if (!listDishes(dishIDs, dishIdsStr, dishCounts, dishCountsStr)) {
-            return false;
+            return ResponseMessage.newErrorInstance("所选菜品部分不存在，请刷新页面");
         }
         menuOfTheDay.setCreateTime(Timestamp.valueOf(now));
         menuOfTheDay.setAdaptTime(Timestamp.valueOf(adaptDateTime));
         menuOfTheDay.setDishesIds(dishIdsStr.toString());
         menuOfTheDay.setDishesCounts(dishCountsStr.toString());
-        return menuOfTheDayMapper.insertDailyMenu(menuOfTheDay) > 0;
+        return menuOfTheDayMapper.insertDailyMenu(menuOfTheDay) > 0
+                ? ResponseMessage.newOkInstance(null)
+                : ResponseMessage.newErrorInstance("配置菜单失败");
     }
 
     @Override
-    public MenuOfTheDay getMenuById(Integer id) {
+    public ResponseMessage getMenuById(Integer id) {
         MenuOfTheDay menu = menuOfTheDayMapper.getMenuById(id);
         if(menu != null){
             menu.setDishes(getDishesOfMenu(menu));
         }
-        return menu;
+        return ResponseMessage.newOkInstance(menu);
     }
 
     @Override
-    public MenuOfTheDay getMenuByAdaptTime(String adaptDateTimeStr) {
+    public ResponseMessage getMenuByAdaptTime(String adaptDateTimeStr) {
         MenuOfTheDay menu =
                 menuOfTheDayMapper.getMenuByApartDate(Timestamp.valueOf(adaptDateTimeStr));
         if(menu != null){
             menu.setDishes(getDishesOfMenu(menu));
         }
-        return menu;
+        return ResponseMessage.newOkInstance(menu);
     }
 
     @Override
-    public List<MenuOfTheDay> listMenus(Integer pageIndex, Integer pageSize) {
-        return menuOfTheDayMapper.listMenus((pageIndex - 1) * pageSize, pageSize);
+    public ResponseMessage listMenus(Integer pageIndex, Integer pageSize) {
+        return ResponseMessage.newOkInstance(
+                menuOfTheDayMapper.listMenus((pageIndex - 1) * pageSize, pageSize)
+        );
     }
 
     @Override
-    public Boolean removeMenuByID(Integer id) {
+    public ResponseMessage removeMenuByID(Integer id) {
         if (id == null) {
-            return false;
+            return ResponseMessage.newErrorInstance("id不能为空");
         }
-        return menuOfTheDayMapper.deleteMenuByID(id) > 0;
+        return menuOfTheDayMapper.deleteMenuByID(id) > 0
+                ? ResponseMessage.newOkInstance(null)
+                : ResponseMessage.newErrorInstance("删除失败");
     }
 
     @Override
-    public Boolean removeMenusByIDs(Integer[] ids) {
+    public ResponseMessage removeMenusByIDs(Integer[] ids) {
         if (ids == null || ids.length < 1) {
-            return false;
+            return ResponseMessage.newErrorInstance("id不能为空");
         }
         if (menuOfTheDayMapper.countMenusByIDs(ids) != ids.length) {
-            return false;
+            return ResponseMessage.newErrorInstance("部分id不存在");
         }
-        return menuOfTheDayMapper.deleteMenusByIDs(ids) == ids.length;
+        menuOfTheDayMapper.deleteMenusByIDs(ids);
+        return ResponseMessage.newOkInstance(null);
     }
 
     @Override
-    public Boolean updateDailyMenu(Integer id, String adaptDateTimeStr, Integer[] dishIDs, Integer[] dishCounts) {
+    public ResponseMessage updateDailyMenu(Integer id, String adaptDateTimeStr, Integer[] dishIDs, Integer[] dishCounts) {
         MenuOfTheDay menuOfTheDay = menuOfTheDayMapper.getMenuById(id);
         LocalDateTime adaptDateTime = LocalDateTime.parse(adaptDateTimeStr);
         StringBuffer dishIdsStr = new StringBuffer();
@@ -101,19 +109,23 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
 
         // 修改数据不存在
         if (menuOfTheDay == null) {
-            return false;
+            return ResponseMessage.newErrorInstance("修改数据不存在");
         }
+        // 检查生效时间是否在创建时间之后 并且数据库中不存在已配置时间的菜单
         if (!checkAdaptDateTimeStr(menuOfTheDay.getCreateTime().toLocalDateTime(),
                 adaptDateTime, menuOfTheDay.getId())) {
-            return false;
+            return ResponseMessage.newErrorInstance("生效日期格式错误或者已经存在该日期的配置菜单");
         }
+        // 检查菜品是否都存在
         if (!listDishes(dishIDs, dishIdsStr, dishCounts, dishCountsStr)) {
-            return false;
+            return ResponseMessage.newErrorInstance("有不存在的菜品");
         }
         menuOfTheDay.setAdaptTime(Timestamp.valueOf(adaptDateTime));
         menuOfTheDay.setDishesIds(dishIdsStr.toString());
         menuOfTheDay.setDishesCounts(dishCountsStr.toString());
-        return menuOfTheDayMapper.updateMenu(menuOfTheDay) > 0 ? true : false;
+        return menuOfTheDayMapper.updateMenu(menuOfTheDay) > 0
+                ? ResponseMessage.newOkInstance(null)
+                : ResponseMessage.newErrorInstance("修改失败");
     }
 
 

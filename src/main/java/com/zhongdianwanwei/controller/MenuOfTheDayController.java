@@ -2,6 +2,7 @@ package com.zhongdianwanwei.controller;
 
 import com.zhongdianwanwei.model.MenuOfTheDay;
 import com.zhongdianwanwei.service.IMenuOfTheDayService;
+import com.zhongdianwanwei.util.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.regex.Pattern;
  * @date : 2020-06-30 14:31
  **/
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/MenuOfTheDay")
 public class MenuOfTheDayController {
 
@@ -30,24 +32,21 @@ public class MenuOfTheDayController {
      * @return
      */
     @PostMapping
-    public Boolean createDailyMenu(@RequestParam("adaptTime") String adaptDateTimeStr,
+    public String createDailyMenu(@RequestParam("adaptTime") String adaptDateTimeStr,
                                    @RequestParam("ids")Integer[] dishIds,
                                    @RequestParam("counts")Integer[] dishCounts){
 
         if (!checkDateTime(adaptDateTimeStr)){
-            return false;
+            return "日期不合法";
         }
         if (dishIds == null || dishIds.length < 0){
-            return false;
+            return "ids数组为空";
         }
         if (dishCounts == null || dishCounts.length < 0){
-            return false;
-        }
-        if (dishCounts.length != dishIds.length){
-            return false;
+            return "counts数组为空";
         }
         adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
-        return menuOfTheDayService.saveDailyMenu(adaptDateTimeStr, dishIds, dishCounts);
+        return menuOfTheDayService.saveDailyMenu(adaptDateTimeStr, dishIds, dishCounts).toString();
     }
 
     /**
@@ -56,7 +55,7 @@ public class MenuOfTheDayController {
      * @return
      */
     @GetMapping(value = "/{id}")
-    public MenuOfTheDay getMenu(@PathVariable(name = "id")Integer id){
+    public ResponseMessage getMenu(@PathVariable(name = "id")Integer id){
         return menuOfTheDayService.getMenuById(id);
     }
 
@@ -66,7 +65,7 @@ public class MenuOfTheDayController {
      * @return
      */
     @GetMapping
-    public MenuOfTheDay getMenu(@RequestParam("adaptTime") String adaptDateTimeStr){
+    public ResponseMessage getMenu(@RequestParam("adaptTime") String adaptDateTimeStr){
         return menuOfTheDayService.getMenuByAdaptTime(adaptDateTimeStr);
     }
 
@@ -77,7 +76,7 @@ public class MenuOfTheDayController {
      * @return
      */
     @GetMapping(value = "/list/{pageSize}/{pageIndex}")
-    public List<MenuOfTheDay> listMenu(@PathVariable(name = "pageIndex") Integer pageIndex,
+    public ResponseMessage listMenu(@PathVariable(name = "pageIndex") Integer pageIndex,
                                        @PathVariable(name = "pageSize") Integer pageSize){
         if ((pageIndex < 1 || pageSize < 0)) {
             return null;
@@ -91,9 +90,9 @@ public class MenuOfTheDayController {
      * @return
      */
     @DeleteMapping(value = "/{id}")
-    public Boolean removeMenu(@PathVariable(name = "id") Integer id){
+    public ResponseMessage removeMenu(@PathVariable(name = "id") Integer id){
         if (id == null) {
-            return false;
+            return ResponseMessage.newErrorInstance("id不能为空");
         }
         return menuOfTheDayService.removeMenuByID(id);
     }
@@ -104,9 +103,9 @@ public class MenuOfTheDayController {
      * @return
      */
     @DeleteMapping
-    public Boolean removeMenus(Integer[] ids){
+    public ResponseMessage removeMenus(Integer[] ids){
         if (ids == null || ids.length < 1) {
-            return false;
+            return ResponseMessage.newErrorInstance("id数组不能为空");
         }
         return menuOfTheDayService.removeMenusByIDs(ids);
     }
@@ -119,25 +118,23 @@ public class MenuOfTheDayController {
      * @return
      */
     @PutMapping(value = "/{id}")
-    public Boolean updateDailyMenu(@PathVariable(name = "id") Integer id,
+    public ResponseMessage updateDailyMenu(@PathVariable(name = "id") Integer id,
                                    @RequestParam(value = "adaptTime") String adaptDateTimeStr,
                                    @RequestParam(value = "ids")Integer[] dishIds,
                                    @RequestParam(value = "counts")Integer[] dishCounts){
-        System.out.println(id);
         if (id == null) {
-            return false;
+            return ResponseMessage.newErrorInstance("id不能为空");
         }
         if (!checkDateTime(adaptDateTimeStr)){
-            return false;
+            return ResponseMessage.newErrorInstance("生效时间字符串格式不正确");
         }
         if (dishIds == null || dishIds.length < 1){
-            return false;
+            return ResponseMessage.newErrorInstance("菜品不能为空");
         }
         if (dishCounts == null || dishCounts.length < 1){
-            return false;
+            return ResponseMessage.newErrorInstance("菜品数量不能为空");
         }
         adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
-        System.out.println(adaptDateTimeStr);
         return menuOfTheDayService.updateDailyMenu(id, adaptDateTimeStr, dishIds, dishCounts);
     }
 
