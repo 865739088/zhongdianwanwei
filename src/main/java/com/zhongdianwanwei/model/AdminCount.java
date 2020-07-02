@@ -10,9 +10,9 @@ public class AdminCount {
     //表内自增id
     private Integer id;
     //用户编号
-    private Integer userId;
+    private int userId;
     //是否加班
-    private Integer isOverTime;
+    private int isOverTime;
     //加班选择类型（加班费、加班商品）
     private Integer overTimeType;
     //创建时间
@@ -28,19 +28,19 @@ public class AdminCount {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public Integer getIsOverTime() {
+    public int getIsOverTime() {
         return isOverTime;
     }
 
-    public void setIsOverTime(Integer isOverTime) {
+    public void setIsOverTime(int isOverTime) {
         this.isOverTime = isOverTime;
     }
 

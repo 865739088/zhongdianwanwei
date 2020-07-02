@@ -7,7 +7,6 @@ import com.zhongdianwanwei.model.AdminCount;
 import com.zhongdianwanwei.service.IAdminCountService;
 import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +42,7 @@ public class AdminCountCtroller {
     }
     @RequestMapping(value = "/toLogin",method = RequestMethod.GET)
     public String toLogin(){
-        return "login";
+        return "/WEB-INF/login.html";
     }
 
 

@@ -1,0 +1,66 @@
+/*全局css*/
+html,body{
+    margin:0;
+    padding:0;
+}
+/*登录页面样式*/
+.loginDiv{
+    width: 100%;
+    height: 100%;
+}
+.subLoginDiv1{
+    width: 300px;
+    margin-left: 600px;
+    margin-top: 100px;
+}
+.subLoginDiv2{
+    color: red;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.subLoginDiv3{
+    float: right;
+}
+.input-group{
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    margin-bottom: 20px;
+}
+.btnLogin{
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+/*注册页面样式*/
+.registerDiv{
+    width: 100%;
+    height: 100%;
+}
+.subRegisterDiv1{
+    width: 500px;
+    margin-left: 600px;
+    margin-top: 80px;
+}
+.subRegisterDiv2{
+    /*text-align: center;*/
+    margin-left: 150px;
+}
+.subRefisterSpan{
+    color: red;
+    position: relative;
+    top: 7px;
+}
+.form-control{
+    float: left;
+    width: 300px;
+}
+tr{
+    height: 60px;
+}
+td{
+    padding: 5px;
+}
+.btnRegister{
+    width: 150px;
+}

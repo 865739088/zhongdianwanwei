@@ -1,5 +1,6 @@
 package com.zhongdianwanwei.dao;
 
+import com.zhongdianwanwei.model.AdminCount;
 import com.zhongdianwanwei.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,4 +16,5 @@ public interface UserMapper {
 
     //根据用户账号查询用户信息
     User getUserByUserName(@Param("userName") String userName);
+
 }

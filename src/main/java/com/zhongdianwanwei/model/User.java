@@ -1,7 +1,9 @@
 package com.zhongdianwanwei.model;
 
 
-//用户实体
+/**
+ * 用户信息
+ */
 public class User {
     //编号
     private int id;
