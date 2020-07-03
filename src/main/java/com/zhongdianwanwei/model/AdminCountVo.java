@@ -23,6 +23,16 @@ public class AdminCountVo {
     //组长是否同意
     private Integer if_agree_overTime;
 
+    private String if_agree_overTime_label;
+
+    public String getIf_agree_overTime_label() {
+        return if_agree_overTime_label;
+    }
+
+    public void setIf_agree_overTime_label(String if_agree_overTime_label) {
+        this.if_agree_overTime_label = if_agree_overTime_label;
+    }
+
     public Integer getId() {
         return id;
     }

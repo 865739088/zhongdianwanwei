@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface AdminCountMapper {
 
-    AdminCount  getAdminCountById(@Param("id") int id);
+    List<AdminCount>  getAdminCountById(@Param("id") int id);
 
     /**
      * 默认统计今日数据，分页展示
@@ -31,6 +31,6 @@ public interface AdminCountMapper {
      * @param
      * @return
      */
-    int updateAdminCountById(@Param("user_id")int user_id,@Param("if_overTime_type")int if_overTime_type,@Param("overTime_type")int overTime_type,@Param("create_time")Date create_time,@Param("if_agree_overTime")int if_agree_overTime);
+    int updateAdminCountById(@Param("user_id")int user_id,@Param("if_agree_overTime")int if_agree_overTime);
 
 }

@@ -16,7 +16,7 @@ public class AdminCountServicerImpl implements IAdminCountService {
     private AdminCountMapper adminCountMapper;
 
     @Override
-    public AdminCount getAdminCountById(int id) {
+    public List<AdminCount> getAdminCountById(int id) {
         return adminCountMapper.getAdminCountById(id);
     }
 
@@ -41,6 +41,6 @@ public class AdminCountServicerImpl implements IAdminCountService {
 
     @Override
     public int updateAdminCountById(AdminCount adminCount) {
-        return adminCountMapper.updateAdminCountById(adminCount.getUser_id(),adminCount.getIf_overTime_type(),adminCount.getOverTime_type(),adminCount.getCreate_time(),adminCount.getIf_agree_overTime());
+        return adminCountMapper.updateAdminCountById(adminCount.getUser_id(),adminCount.getIf_agree_overTime());
     }
 }

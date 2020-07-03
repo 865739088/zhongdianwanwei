@@ -517,6 +517,21 @@ app.controller('auditCtrl', function ($scope, $http,$uibModal, $state) {
             $scope.members=resp.data.leaderList;
         });
     }
+
+    $scope.agreeApply = function (user_id) {
+
+        $http({
+            url: 'leaderAgreeOverTime',
+            method: 'get',
+            params: {
+                userId:user_id
+            }
+        }).then(function (resp) {
+            $scope.agreeResult=resp.data.agreeResult;
+            alert( $scope.agreeResult);
+        });
+    }
+
 });
 
 app.controller('overTimeApplicationCtrl', function ($scope, $http,$uibModal, $state) {
@@ -525,12 +540,12 @@ app.controller('overTimeApplicationCtrl', function ($scope, $http,$uibModal, $st
     $scope.overTimeApply = function () {
 
         $http({
-            url: 'SubmitOverTime',
+            url: 'getAdminCountById',
             method: 'get',
             params: {
             }
         }).then(function (resp) {
-            $scope.members=resp.data.leaderList;
+            $scope.adminLists=resp.data.adminLists;
         });
     }
 });

@@ -65,6 +65,7 @@ public class AdminCountCtroller {
                 adminCountVo.setIf_overTime_type(result.getIf_overTime_type());
                 adminCountVo.setCreate_time(result.getCreate_time());
                 adminCountVo.setIf_overTime_lable(result.getIf_overTime_type() == 0 ? "不加班" : "加班");
+                adminCountVo.setIf_agree_overTime_label(result.getIf_agree_overTime() == 0?"未同意":"已同意");
                 if (adminCountVo.getOverTime_type() == 1) {
                     Dish dishes = dishesMapper.getDishes(adminCountVo.getOverTime_type());
                     adminCountVo.setOverTime_lable(dishes.getName());
@@ -98,12 +99,35 @@ public class AdminCountCtroller {
         ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getAdminCountById",method = RequestMethod.GET)
+    public  void getAdminCount(){
+        HttpServletRequest request=ServletUtil.getRequest();
+        HttpSession session = request.getSession();
+        String userName = (String)session.getAttribute("userName");
+        User user = userService.getUserByUserName(userName);
+        List<AdminCount> list = adminCountService.getAdminCountById(user.getId());
+        List<AdminCountVo> adminCountVoList = new ArrayList<>();
+        for (AdminCount adminCount1 :list){
+            AdminCountVo adminCountVo = new AdminCountVo();
+            adminCountVo.setUser_id(adminCount1.getUser_id());
+            adminCountVo.setName(user.getName());
+            adminCountVo.setUserName(user.getUsername());
+            adminCountVo.setCreate_time(adminCount1.getCreate_time());
+            adminCountVo.setIf_agree_overTime_label(adminCount1.getIf_agree_overTime()==0?"未同意":"已同意");
+            adminCountVoList.add(adminCountVo);
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("adminLists",adminCountVoList);
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
+
+    }
     @RequestMapping(value = "/toLogin",method = RequestMethod.GET)
     public String toLogin(){
 
         return "login.html";
     }
-
 
 /**
      * 用户提交加班申请
@@ -127,10 +151,10 @@ public class AdminCountCtroller {
         int i = adminCountService.insertAdminCount(adminCount);
         JSONObject jsonObject = new JSONObject();
         if (i>0){
-            jsonObject.put("dayList","申请成功");
+            jsonObject.put("applyResult","申请成功");
              s= "申请成功";
         }else{
-            jsonObject.put("dayList","申请失败");
+            jsonObject.put("applyResult","申请失败");
              s=  "申请失败";
         }
         ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
@@ -148,10 +172,17 @@ public class AdminCountCtroller {
         adminCount.setUser_id(userId);
         adminCount.setIf_agree_overTime(1);
         int i = adminCountService.updateAdminCountById(adminCount);
+        String s = null;
+        JSONObject jsonObject = new JSONObject();
         if (i>0){
-            return "已同意申请";
-        }else
-            return "操作失败";
+            jsonObject.put("agreeResult","已同意申请");
+            s= "已同意申请";
+        }else{
+            jsonObject.put("agreeResult","操作失败");
+            s=  "操作失败";
+        }
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
+        return s;
     }
 
 
@@ -194,12 +225,12 @@ public class AdminCountCtroller {
                 List<User> users = userService.getUserByGroupId(userByUserName.getGroup_id());
                 for (User user : users) {
                     int id = user.getId();
-                    AdminCount adminCountById = adminCountService.getAdminCountById(id);
+                    List<AdminCount> adminCountById = adminCountService.getAdminCountById(id);
                     MenbersVo menbersVo = new MenbersVo();
                     menbersVo.setGroupId(user.getGroup_id());
                     menbersVo.setName(user.getName());
                     menbersVo.setUser_id(user.getId());
-                    menbersVo.setCondition(adminCountById.getIf_agree_overTime()==0?"未同意":"已同意");
+                    menbersVo.setCondition(adminCountById.get(0).getIf_agree_overTime()==0?"未同意":"已同意");
                     menbersVo.setTranslation("组员提交加班申请");
                     list.add(menbersVo);
                 }

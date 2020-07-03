@@ -1,6 +1,5 @@
 <div class="condition-box">
-    <span>菜品名</span><input type="text" ng-model="cond.name">
-    <a class="btn btn-sm btn-default"  ng-click="search(true)">
+    <a class="btn btn-sm btn-default"  ng-click="overTimeApply(true)">
         <i class="fa fa-search"></i>
         查询
     </a>
@@ -31,20 +30,21 @@
         <thead>
         <tr>
             <th style="width: 25px;"><input type="checkbox" ng-model="selectedAll" ng-change="chooseAll()"></th>
-            <th style="width: calc((100% - 25px ) * 20%);">菜品编号</th>
-            <th style="width: calc((100% - 25px ) * 20%);">菜品名</th>
-            <th style="width: calc((100% - 25px ) * 20%);">菜品价格</th>
-            <th style="width: calc((100% - 25px ) * 20%);">菜品重量</th>
-            <th style="width: calc((100% - 25px ) * 20%);">操作</th>
+            <th style="width: calc((100% - 25px ) * 20%);">当前用户姓名</th>
+            <th style="width: calc((100% - 25px ) * 20%);">员工编号</th>
+            <th style="width: calc((100% - 25px ) * 20%);">员工账号</th>
+            <th style="width: calc((100% - 25px ) * 20%);">申请日期</th>
+            <th style="width: calc((100% - 25px ) * 20%);">状态</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="dish in dishes">
-            <td style="width: 25px;"><input type="checkbox" ng-model="dish.selected" ng-change="choose(dish)"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.id"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.name"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.price"></td>
-            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="dish.mark"></td>
+        <tr ng-repeat="admin in adminLists">
+            <td style="width: 25px;"><input type="checkbox" ng-model="admin.selected" ng-change="choose(admin)"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="admin.name"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="admin.user_id"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="admin.userName"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="admin.create_time"></td>
+            <td style="width: calc((100% - 25px ) * 20%);" ng-bind="admin.if_agree_overTime_label"></td>
             <td style="width: calc((100% - 25px ) * 20%);">
                 <a ng-click="showUpdateModal(dish)">修改</a>
                 <a ng-click="deleteDish(dish.id)">删除</a>
