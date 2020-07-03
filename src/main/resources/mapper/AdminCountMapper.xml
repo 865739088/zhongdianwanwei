@@ -34,4 +34,17 @@
         </set>
         where user_id=#{user_id};
     </update>
+
+    <update id="updateChooseById" parameterType="com.zhongdianwanwei.model.AdminCount">
+        update adminCount
+        <set>
+            <if test="user_id != 0">
+                `user_id`=#{user_id},
+            </if>
+            <if test="overTime_type != ''">
+                `overTime_type`=#{overTime_type}
+            </if>
+        </set>
+        where user_id=#{user_id};
+    </update>
 </mapper>

@@ -33,4 +33,6 @@ public interface AdminCountMapper {
      */
     int updateAdminCountById(@Param("user_id")int user_id,@Param("if_agree_overTime")int if_agree_overTime);
 
+    int updateChooseById(@Param("user_id")int user_id,@Param("overTime_type")int overTime_type);
+
 }

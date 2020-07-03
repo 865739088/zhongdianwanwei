@@ -188,21 +188,31 @@ public class AdminCountCtroller {
 
 /**
      * 用户提交所选菜单
-     * @param userId
+     * @param
      * @return
      */
 
     @RequestMapping(value = "/userSubmitChoose",method = RequestMethod.GET)
     @ResponseBody
-    public String userSubmitChoose(@RequestParam int userId,@RequestParam int choose){
+    public String userSubmitChoose(@RequestParam int choose){
         AdminCount adminCount = new AdminCount();
+        HttpServletRequest request=ServletUtil.getRequest();
+        HttpSession session = request.getSession();
+        int userId = (int)session.getAttribute("userId");
         adminCount.setUser_id(userId);
         adminCount.setOverTime_type(choose);
-        int i = adminCountService.updateAdminCountById(adminCount);
+        int i = adminCountService.updateChooseById(adminCount);
+        String s = null;
+        JSONObject jsonObject = new JSONObject();
         if (i>0){
-            return "提交成功";
-        }else
-            return "提交失败";
+            jsonObject.put("userSubmit","提交成功");
+            s= "提交成功";
+        }else{
+            jsonObject.put("userSubmit","提交失败");
+            s=  "提交失败";
+        }
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
+        return s;
     }
 
 

@@ -43,4 +43,8 @@ public class AdminCountServicerImpl implements IAdminCountService {
     public int updateAdminCountById(AdminCount adminCount) {
         return adminCountMapper.updateAdminCountById(adminCount.getUser_id(),adminCount.getIf_agree_overTime());
     }
+    @Override
+    public int updateChooseById(AdminCount adminCount) {
+        return adminCountMapper.updateChooseById(adminCount.getUser_id(),adminCount.getOverTime_type());
+    }
 }

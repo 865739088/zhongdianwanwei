@@ -39,4 +39,6 @@ public interface IAdminCountService {
      * @return
      */
     int updateAdminCountById(AdminCount adminCount);
+
+     int updateChooseById(AdminCount adminCount);
 }
