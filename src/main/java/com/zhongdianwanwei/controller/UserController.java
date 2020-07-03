@@ -59,6 +59,7 @@ public class UserController {
                 msg= "1";//登录信息正确，允许登陆
                 jsonObject.put("user",checkUser);
                 Cookie currentUserName=new Cookie("userName",userName);
+                Cookie currentUserId=new Cookie("userId",checkUser.getId()+"");
                 Cookie currentName=new Cookie("name",checkUser.getName());
 
                 //设置存活时间
@@ -72,6 +73,7 @@ public class UserController {
                 response.addCookie(currentName);
                 HttpSession session=request.getSession();
                 session.setAttribute("userName",userName);
+                session.setAttribute("userId",checkUser.getId());
                 session.setAttribute("name",checkUser.getName());
             }else {
                 msg= "0";//密码错误
