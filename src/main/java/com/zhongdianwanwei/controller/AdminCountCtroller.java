@@ -111,19 +111,30 @@ public class AdminCountCtroller {
 
     @RequestMapping(value = "/SubmitOverTime",method = RequestMethod.GET)
     @ResponseBody
-    public String userSubmitOverTime(@RequestParam int userId){
+    public String userSubmitOverTime(){
+        HttpServletRequest request=ServletUtil.getRequest();
+        HttpSession session = request.getSession();
+        String userName = (String)session.getAttribute("userName");
+        User user = userService.getUserByUserName(userName);
         AdminCount adminCount = new AdminCount();
         adminCount.setId(0);
-        adminCount.setUser_id(userId);
+        adminCount.setUser_id(user.getId());
         adminCount.setCreate_time(new Date());
         adminCount.setIf_overTime_type(1);
         adminCount.setIf_agree_overTime(0);
         adminCount.setOverTime_type(0);
+        String s = null;
         int i = adminCountService.insertAdminCount(adminCount);
+        JSONObject jsonObject = new JSONObject();
         if (i>0){
-            return "申请成功";
-        }else
-            return "申请失败";
+            jsonObject.put("dayList","申请成功");
+             s= "申请成功";
+        }else{
+            jsonObject.put("dayList","申请失败");
+             s=  "申请失败";
+        }
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
+        return s;
     }
 
 /**
@@ -189,6 +200,7 @@ public class AdminCountCtroller {
                     menbersVo.setName(user.getName());
                     menbersVo.setUser_id(user.getId());
                     menbersVo.setCondition(adminCountById.getIf_agree_overTime()==0?"未同意":"已同意");
+                    menbersVo.setTranslation("组员提交加班申请");
                     list.add(menbersVo);
                 }
             }
