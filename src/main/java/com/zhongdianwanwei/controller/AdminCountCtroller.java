@@ -135,18 +135,19 @@ public class AdminCountCtroller {
 
     @RequestMapping(value = "/SubmitOverTime",method = RequestMethod.GET)
     @ResponseBody
-    public String userSubmitOverTime(){
+    public String userSubmitOverTime(@RequestParam int choose){
         HttpServletRequest request=ServletUtil.getRequest();
         HttpSession session = request.getSession();
-        String userName = (String)session.getAttribute("userName");
-        User user = userService.getUserByUserName(userName);
+        int userId = (int)session.getAttribute("userId");
+//        String userName = (String)session.getAttribute("userName");
+//        User user = userService.getUserByUserName(userName);
         AdminCount adminCount = new AdminCount();
         adminCount.setId(0);
-        adminCount.setUser_id(user.getId());
+        adminCount.setUser_id(userId);
         adminCount.setCreate_time(new Date());
         adminCount.setIf_overTime_type(1);
         adminCount.setIf_agree_overTime(0);
-        adminCount.setOverTime_type(0);
+        adminCount.setOverTime_type(choose);
         String s = null;
         int i = adminCountService.insertAdminCount(adminCount);
         JSONObject jsonObject = new JSONObject();
@@ -160,6 +161,34 @@ public class AdminCountCtroller {
         ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
         return s;
     }
+//    /**
+//     * 用户提交所选菜单
+//     * @param
+//     * @return
+//     */
+//
+//    @RequestMapping(value = "/userSubmitChoose",method = RequestMethod.GET)
+//    @ResponseBody
+//    public String userSubmitChoose(@RequestParam int choose){
+//        AdminCount adminCount = new AdminCount();
+//        HttpServletRequest request=ServletUtil.getRequest();
+//        HttpSession session = request.getSession();
+//        int userId = (int)session.getAttribute("userId");
+//        adminCount.setUser_id(userId);
+//        adminCount.setOverTime_type(choose);
+//        int i = adminCountService.updateChooseById(adminCount);
+//        String s = null;
+//        JSONObject jsonObject = new JSONObject();
+//        if (i>0){
+//            jsonObject.put("userSubmit","提交成功");
+//            s= "提交成功";
+//        }else{
+//            jsonObject.put("userSubmit","提交失败");
+//            s=  "提交失败";
+//        }
+//        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
+//        return s;
+//    }
 
 /**
      * 组长同意加班申请
@@ -185,35 +214,6 @@ public class AdminCountCtroller {
         return s;
     }
 
-
-/**
-     * 用户提交所选菜单
-     * @param
-     * @return
-     */
-
-    @RequestMapping(value = "/userSubmitChoose",method = RequestMethod.GET)
-    @ResponseBody
-    public String userSubmitChoose(@RequestParam int choose){
-        AdminCount adminCount = new AdminCount();
-        HttpServletRequest request=ServletUtil.getRequest();
-        HttpSession session = request.getSession();
-        int userId = (int)session.getAttribute("userId");
-        adminCount.setUser_id(userId);
-        adminCount.setOverTime_type(choose);
-        int i = adminCountService.updateChooseById(adminCount);
-        String s = null;
-        JSONObject jsonObject = new JSONObject();
-        if (i>0){
-            jsonObject.put("userSubmit","提交成功");
-            s= "提交成功";
-        }else{
-            jsonObject.put("userSubmit","提交失败");
-            s=  "提交失败";
-        }
-        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
-        return s;
-    }
 
 
 /**
