@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.List;
 
 public interface IAdminCountService {
-    AdminCount  getAdminCountById(int id);
+    List<AdminCount>  getAdminCountById(int id);
     /**
      * 默认查询当日统计数据
      * @param page

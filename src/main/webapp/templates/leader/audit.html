@@ -48,8 +48,7 @@
             <td style="width: calc((100% - 25px ) * 20%);" ng-bind="member.translation"></td>
             <td style="width: calc((100% - 25px ) * 20%);" ng-bind="member.condition"></td>
             <td style="width: calc((100% - 25px ) * 20%);">
-                <a ng-click="showUpdateModal(dish)">修改</a>
-                <a ng-click="deleteDish(dish.id)">删除</a>
+                <a ng-click="agreeApply(member.user_id)">同意</a>
             </td>
         </tr>
         </tbody>
