@@ -6,6 +6,15 @@ public class MenbersVo {
     private int user_id;
     private String name;
     private String condition;
+    private String translation;
+
+    public String getTranslation() {
+        return translation;
+    }
+
+    public void setTranslation(String translation) {
+        this.translation = translation;
+    }
 
     public int getGroupId() {
         return groupId;

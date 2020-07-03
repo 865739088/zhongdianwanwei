@@ -519,3 +519,20 @@ app.controller('auditCtrl', function ($scope, $http,$uibModal, $state) {
     }
 });
 
+app.controller('overTimeApplicationCtrl', function ($scope, $http,$uibModal, $state) {
+
+    //查询组内成员信息
+    $scope.overTimeApply = function () {
+
+        $http({
+            url: 'SubmitOverTime',
+            method: 'get',
+            params: {
+            }
+        }).then(function (resp) {
+            $scope.members=resp.data.leaderList;
+        });
+    }
+});
+
+
