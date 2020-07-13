@@ -9,6 +9,7 @@ import com.zhongdianwanwei.util.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
         }
         return ResponseMessage.newOkInstance(menu);
     }
-
+/*
     @Override
     public ResponseMessage getMenuByAdaptTime(String adaptDateTimeStr) {
         adaptDateTimeStr=adaptDateTimeStr.substring(0,19);
@@ -73,6 +74,18 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
             menu.setDishes(getDishesOfMenu(menu));
         }
         return ResponseMessage.newOkInstance(menu);
+    }*/
+    @Override
+    public MenuOfTheDay getMenuByAdaptTime(String adaptDateTimeStr) {
+        adaptDateTimeStr=adaptDateTimeStr.substring(0,19);
+        adaptDateTimeStr=adaptDateTimeStr.replace("T"," ");
+        System.out.println(adaptDateTimeStr);
+        MenuOfTheDay menu =
+                menuOfTheDayMapper.getMenuByApartDate(Timestamp.valueOf(adaptDateTimeStr));
+        if(menu != null){
+            menu.setDishes(getDishesOfMenu(menu));
+        }
+        return menu;
     }
 
     @Override
@@ -107,7 +120,11 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
     @Override
     public ResponseMessage updateDailyMenu(Integer id, String adaptDateTimeStr, Integer[] dishIDs, Integer[] dishCounts) {
         MenuOfTheDay menuOfTheDay = menuOfTheDayMapper.getMenuById(id);
+        adaptDateTimeStr=adaptDateTimeStr.substring(0,19);
+       // adaptDateTimeStr=adaptDateTimeStr.replace("T"," ");
+
         LocalDateTime adaptDateTime = LocalDateTime.parse(adaptDateTimeStr);
+
         StringBuffer dishIdsStr = new StringBuffer();
         StringBuffer dishCountsStr = new StringBuffer();
 
@@ -168,7 +185,7 @@ public class MenuOfTheDayServiceImpl implements IMenuOfTheDayService {
         if (counts != dishIDs.length){
             return false;
         }
-        for (int i=0; i<dishIDs.length; ++i){
+        for (int i=0; i<dishIDs.length; i++){
             dishIDsStr.append(dishIDs[i]).append(',');
             dishCountsStr.append(dishCounts[i]).append(',');
         }

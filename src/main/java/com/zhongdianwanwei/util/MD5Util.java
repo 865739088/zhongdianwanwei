@@ -6,6 +6,17 @@ import java.util.Base64;
 import java.util.List;
 
 public class MD5Util {
+
+
+    public static void main(String[] args) {
+        String password = "123456";
+        String salt = StringUtil.randomStr(20);
+        System.out.println(salt);
+        String encrypt = encode(password, salt);
+        System.out.println(encrypt);
+    }
+
+
     public static String encode(String original, String security){
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

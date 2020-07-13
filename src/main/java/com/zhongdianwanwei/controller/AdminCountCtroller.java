@@ -135,7 +135,7 @@ public class AdminCountCtroller {
 
     @RequestMapping(value = "/SubmitOverTime",method = RequestMethod.GET)
     @ResponseBody
-    public String userSubmitOverTime(@RequestParam int choose){
+    public void userSubmitOverTime(@RequestParam int choose){
         HttpServletRequest request=ServletUtil.getRequest();
         HttpSession session = request.getSession();
         int userId = (int)session.getAttribute("userId");
@@ -159,7 +159,7 @@ public class AdminCountCtroller {
              s=  "申请失败";
         }
         ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
-        return s;
+
     }
 //    /**
 //     * 用户提交所选菜单

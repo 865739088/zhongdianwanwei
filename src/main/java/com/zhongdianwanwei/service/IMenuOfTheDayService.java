@@ -29,7 +29,8 @@ public interface IMenuOfTheDayService {
      * @param adaptDateTimeStr 菜单生效时间
      * @return
      */
-    ResponseMessage getMenuByAdaptTime(String adaptDateTimeStr);
+    //ResponseMessage getMenuByAdaptTime(String adaptDateTimeStr);
+    MenuOfTheDay getMenuByAdaptTime(String adaptDateTimeStr);
 
     /**
      * 按照分页菜单列表

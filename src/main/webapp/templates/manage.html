@@ -4,23 +4,19 @@
     </div>
     <ul class="list-inline info-box">
         <li ng-bind="currentUser"></li>
-        <li>
-            <a href="javascript:void(0)" ng-click="logout()">注销</a>
-        </li>
     </ul>
 </header>
 <main>
     <aside>
-        <!--<div ng-repeat="menu in menus" class="menu" ng-class="{true: 'active'}[menu.selected]" ui-sref="{{menu.router}}" ng-click="select(menu)">
-            <i class="fa {{menu.icon}}"></i>user.html
+        <div ng-repeat="menu in menus" class="menu"  ui-sref="{{menu.router}}">
             <span ng-bind="menu.name"></span>
-        </div>-->
-        <div class="menu" ui-sref="manage.dishes">菜品管理</div>
+        </div>
+       <!-- <div class="menu" ui-sref="manage.dishes">菜品管理</div>
         <div class="menu" ui-sref="manage.dishesOfTheDay">当日菜单</div>
         <div class="menu" ui-sref="manage.user">用户管理</div>
         <div class="menu" ui-sref="manage.adminCount">统计管理</div>
         <div class="menu" ui-sref="manage.overTimeApplication">加班申请</div>
-        <div class="menu" ui-sref="manage.audit">申请审核</div>
+        <div class="menu" ui-sref="manage.audit">申请审核</div>-->
     </aside>
 
     <section ui-view></section>

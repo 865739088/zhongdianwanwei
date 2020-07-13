@@ -5,7 +5,14 @@
 
 <mapper namespace="com.zhongdianwanwei.dao.UserMapper">
     <select id="getUsers" resultType="com.zhongdianwanwei.model.User">
-        select * from `user`;
+        select * from `user`
+        where 1=1
+        <if test="userName!=null and userName!=''">
+            and username = #{userName}
+        </if>
+        <if test="name!=null and name!=''">
+            and `name` like concat('%',#{name},'%')
+        </if>
     </select>
     <select id="getUserByUserName" resultType="com.zhongdianwanwei.model.User" >
         select * from `user` where username = #{userName}

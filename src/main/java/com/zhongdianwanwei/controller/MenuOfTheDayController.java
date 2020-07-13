@@ -1,8 +1,11 @@
 package com.zhongdianwanwei.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhongdianwanwei.model.MenuOfTheDay;
 import com.zhongdianwanwei.service.IMenuOfTheDayService;
 import com.zhongdianwanwei.util.ResponseMessage;
+import com.zhongdianwanwei.util.ResponseUtil;
+import com.zhongdianwanwei.util.ServletUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,8 +68,11 @@ public class MenuOfTheDayController {
      * @return
      */
     @GetMapping
-    public ResponseMessage getMenu(@RequestParam("adaptTime") String adaptDateTimeStr){
-        return menuOfTheDayService.getMenuByAdaptTime(adaptDateTimeStr);
+    public void getMenu(@RequestParam("adaptTime") String adaptDateTimeStr){
+
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("dishes",menuOfTheDayService.getMenuByAdaptTime(adaptDateTimeStr));
+        ResponseUtil.out(ServletUtil.getResponse(),jsonObject);
     }
 
     /**
@@ -125,16 +131,17 @@ public class MenuOfTheDayController {
         if (id == null) {
             return ResponseMessage.newErrorInstance("id不能为空");
         }
-        if (!checkDateTime(adaptDateTimeStr)){
+      /*  if (!checkDateTime(adaptDateTimeStr)){
             return ResponseMessage.newErrorInstance("生效时间字符串格式不正确");
-        }
+        }*/
         if (dishIds == null || dishIds.length < 1){
             return ResponseMessage.newErrorInstance("菜品不能为空");
         }
         if (dishCounts == null || dishCounts.length < 1){
             return ResponseMessage.newErrorInstance("菜品数量不能为空");
         }
-        adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
+        System.out.println(adaptDateTimeStr+"==========================");
+       // adaptDateTimeStr = adaptDateTimeStr.substring(0,10)+'T'+adaptDateTimeStr.substring(11,adaptDateTimeStr.length());
         return menuOfTheDayService.updateDailyMenu(id, adaptDateTimeStr, dishIds, dishCounts);
     }
 

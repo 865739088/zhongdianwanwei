@@ -17,6 +17,8 @@ public class User {
     private int user_type;
     //用户组
     private int group_id;
+    //随机盐
+    private String salt;
 
     public int getId() {
         return id;
@@ -66,6 +68,14 @@ public class User {
         this.group_id = group_id;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -73,8 +83,9 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
-                ", UserType=" + user_type +
-                ", GroupId=" + group_id +
+                ", user_type=" + user_type +
+                ", group_id=" + group_id +
+                ", salt='" + salt + '\'' +
                 '}';
     }
 }

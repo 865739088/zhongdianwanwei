@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongdianwanwei.dao.ManageMapper">
+
+    <select id="getMenus" resultType="com.zhongdianwanwei.model.Menu">
+        SELECT
+         `user`.id ,
+            menu.id,
+            menu.`name`,
+            menu.router
+        FROM
+            menu,
+            role,
+            role_menu,
+            user_role,
+            `user`
+        WHERE
+        menu.id=role_menu.menu_id
+        and
+        role.id=role_menu.role_id
+        AND
+        `user`.id=user_role.user_id
+        AND
+        role.id=user_role.role_id
+        and
+        `user`.id=#{userId}
+    </select>
+
+</mapper>

@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhongdianwanwei.model.SysDict;
 import com.zhongdianwanwei.model.User;
 import com.zhongdianwanwei.service.IUserService;
+import com.zhongdianwanwei.util.MD5Util;
 import com.zhongdianwanwei.util.ResponseUtil;
 import com.zhongdianwanwei.util.ServletUtil;
+import com.zhongdianwanwei.util.StringUtil;
 import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,12 +52,14 @@ public class UserController {
         HttpServletRequest request=ServletUtil.getRequest();
         HttpServletResponse response=ServletUtil.getResponse();
 
+
         String msg=null;
         User checkUser=userService.getUserByUserName(userName);
         if(checkUser==null){
             msg="-1";//用户账号不存在
         }else {
-            if(checkUser.getPassword().equals(password)){
+            //密码校验
+            if(checkUser.getPassword().equals(MD5Util.encode(password,checkUser.getSalt()))){
                 msg= "1";//登录信息正确，允许登陆
                 jsonObject.put("user",checkUser);
                 Cookie currentUserName=new Cookie("userName",userName);

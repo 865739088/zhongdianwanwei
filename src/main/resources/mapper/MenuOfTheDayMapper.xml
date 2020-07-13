@@ -92,8 +92,7 @@
         update menuOfTheDay
         set
             dishes_ids = #{dishesIds},
-            dishes_counts = #{dishesCounts},
-            adapt_date = #{adaptTime}
+            dishes_counts = #{dishesCounts}
         where
             id = #{id}
     </update>
